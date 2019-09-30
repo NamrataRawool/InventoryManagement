@@ -22,7 +22,6 @@ class AddProduct extends Component {
     event.preventDefault();
     const { id, value } = event.target;
     let errors = this.state.errors;
-    let product = this.state.product;
     switch (id) {
       case "name":
         errors.name =
@@ -42,7 +41,7 @@ class AddProduct extends Component {
         break;
     }
     this.setState({
-      product: { ...this.state.product, noOfItems: e.target.value }
+      product: { ...this.state.product, [id]: event.target.value }
     });
   };
 
@@ -55,7 +54,6 @@ class AddProduct extends Component {
   handleSubmit = e => {
     e.preventDefault();
     if (this.validateForm(this.state.errors)) {
-      console.log(this.state.product);
       Axios.post("api/Product/Add", this.state.product)
         .then(function(response) {
           console.log(response.data);
