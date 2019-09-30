@@ -18,27 +18,41 @@ class AddProduct extends Component {
     }
   };
 
+  validateString = str => {
+    const error = new RegExp("^([A-Za-z]+)(\\s[A-Za-z]+)*\\s?$").test(str)
+      ? ""
+      : "Please eneter string value";
+    console.log(error);
+    return error;
+  };
+
+  validateInteger = num => {
+    const error = new RegExp("^[1-9]+[0-9]*$").test(num)
+      ? ""
+      : "Please eneter integer value";
+    console.log(error);
+    return error;
+  };
+
   handleChange = event => {
     event.preventDefault();
     const { id, value } = event.target;
     let errors = this.state.errors;
     switch (id) {
       case "name":
-        errors.name =
-          value.length < 5 ? "Full Name must be 5 characters long!" : "";
+        errors.name = this.validateString(value);
         break;
       case "category":
-        errors.category =
-          value.length < 5 ? "Full Name must be 5 characters long!" : "";
+        errors.category = this.validateString(value);
         break;
       case "price":
-        errors.price =
-          value.length < 5 ? "Full Name must be 5 characters long!" : "";
+        errors.price = this.validateInteger(value);
         break;
       case "noOfItems":
-        errors.noOfItems =
-          value.length < 5 ? "Full Name must be 5 characters long!" : "";
+        errors.noOfItems = this.validateInteger(value);
         break;
+      default:
+        console.log("invalid id");
     }
     this.setState({
       product: { ...this.state.product, [id]: event.target.value }
