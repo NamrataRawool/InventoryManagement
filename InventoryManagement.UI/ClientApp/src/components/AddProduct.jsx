@@ -11,10 +11,10 @@ class AddProduct extends Component {
       noOfItems: 0
     },
     errors: {
-      name: "",
-      category: "",
-      price: "",
-      noOfItems: ""
+      name: "error",
+      category: "error",
+      price: "error",
+      noOfItems: "error"
     }
   };
 
@@ -82,77 +82,87 @@ class AddProduct extends Component {
 
   render() {
     return (
-      <form>
-        <h4>Product Details</h4>
-        <br />
-        <div className="form-group row">
-          <label htmlFor="productName" className="col-sm-2 col-form-label">
-            Name
-          </label>
-          <div className="col-sm-10">
-            <input
-              onChange={this.handleChange}
-              type="text"
-              className="form-control"
-              id="name"
-              required
-            />
+      <div className="content-wrapper">
+        <div className="box">
+                <div className="box-header">
+                    <h3 className="box-title">Edit Product</h3>
           </div>
+          <form>
+            <br />
+            <div className="form-group row">
+              <label htmlFor="productName" className="col-sm-2 col-form-label">
+                Name
+              </label>
+              <div className="col-sm-10">
+                <input
+                  onChange={this.handleChange}
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group row">
+              <label
+                htmlFor="productCategory"
+                className="col-sm-2 col-form-label"
+              >
+                Category
+              </label>
+              <div className="col-sm-10">
+                <input
+                  onChange={this.handleChange}
+                  type="text"
+                  className="form-control"
+                  id="category"
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group row">
+              <label htmlFor="productPrice" className="col-sm-2 col-form-label">
+                Price
+              </label>
+              <div className="col-sm-10">
+                <input
+                  onChange={this.handleChange}
+                  type="text"
+                  className="form-control"
+                  id="price"
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group row">
+              <label htmlFor="productPrice" className="col-sm-2 col-form-label">
+                No. of Items
+              </label>
+              <div className="col-sm-10">
+                <input
+                  onChange={this.handleChange}
+                  type="text"
+                  className="form-control"
+                  id="noOfItems"
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group row">
+              <div className="col-sm-10">
+                <button
+                  onClick={this.handleSubmit}
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={!this.validateForm(this.state.errors)}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div className="form-group row">
-          <label htmlFor="productCategory" className="col-sm-2 col-form-label">
-            Category
-          </label>
-          <div className="col-sm-10">
-            <input
-              onChange={this.handleChange}
-              type="text"
-              className="form-control"
-              id="category"
-              required
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="productPrice" className="col-sm-2 col-form-label">
-            Price
-          </label>
-          <div className="col-sm-10">
-            <input
-              onChange={this.handleChange}
-              type="text"
-              className="form-control"
-              id="price"
-              required
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="productPrice" className="col-sm-2 col-form-label">
-            No. of Items
-          </label>
-          <div className="col-sm-10">
-            <input
-              onChange={this.handleChange}
-              type="text"
-              className="form-control"
-              id="noOfItems"
-              required
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <div className="col-sm-10">
-            <button
-              onClick={this.handleSubmit}
-              type="submit"
-              className="btn btn-primary"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
+      </div>
     );
   }
 }

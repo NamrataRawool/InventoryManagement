@@ -1,3 +1,7 @@
+using InventoryManagement.Common.Configuration.Options;
+using InventoryManagement.DAL;
+using InventoryManagement.DAL.Interfaces;
+using InventoryManagement.UI.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace InventoryManagement.UI
 {
@@ -20,15 +25,31 @@ namespace InventoryManagement.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //Configure options
+            services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStringsOptions"));
+
+
+            services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
             });
-        }
 
+        }
+        //public IServiceProvider ConfigureContainer(ContainerBuilder builder)
+        //{
+        //   // builder.RegisterControllers(Assembly.GetExecutingAssembly());
+        //    //Register modules
+        //    builder.RegisterModule(new AutofacDALModule());
+        //    var container = builder.Build();
+        //    return new AutofacServiceProvider(container);
+
+        //}
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
