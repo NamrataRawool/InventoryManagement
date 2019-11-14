@@ -16,7 +16,7 @@ namespace InventoryManagement.DAL
         }
         public void AddProduct(ProductIn productIn)
         {
-            throw new NotImplementedException();
+            
         }
 
         public IList<ProductOut> GetAllProducts()

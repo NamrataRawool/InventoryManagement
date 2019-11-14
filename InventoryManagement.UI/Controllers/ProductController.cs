@@ -32,6 +32,7 @@ namespace InventoryManagement.UI.Controllers
         {
             ProductOut product = new ProductOut();
             product.HttpStatus = "Ok";
+   
             return product;
         }
 
