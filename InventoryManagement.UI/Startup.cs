@@ -1,4 +1,4 @@
-using InventoryManagement.Common.Configuration.Options;
+
 using InventoryManagement.DAL;
 using InventoryManagement.DAL.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -24,8 +24,8 @@ namespace InventoryManagement.UI
         {
             services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //Configure options
-            services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStringsOptions"));
+            services.AddEntityFrameworkSqlite()
+                .AddDbContext<DatabaseContext>();
 
 
             services.AddSingleton<ISqlDataAccess, SqlDataAccess>();

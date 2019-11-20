@@ -7,26 +7,26 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.UI", "I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.DAL", "InventoryManagement.DAL\InventoryManagement.DAL.csproj", "{2A8DC547-9ABE-4C5A-9965-C462A4590746}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagement.Common", "InventoryManagement.Common\InventoryManagement.Common.csproj", "{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.Common", "InventoryManagement.Common\InventoryManagement.Common.csproj", "{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CC8E7036-859B-4338-83D8-290A6FAAFF4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC8E7036-859B-4338-83D8-290A6FAAFF4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC8E7036-859B-4338-83D8-290A6FAAFF4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC8E7036-859B-4338-83D8-290A6FAAFF4C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A8DC547-9ABE-4C5A-9965-C462A4590746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A8DC547-9ABE-4C5A-9965-C462A4590746}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A8DC547-9ABE-4C5A-9965-C462A4590746}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A8DC547-9ABE-4C5A-9965-C462A4590746}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC8E7036-859B-4338-83D8-290A6FAAFF4C}.Debug|x64.ActiveCfg = Debug|x64
+		{CC8E7036-859B-4338-83D8-290A6FAAFF4C}.Debug|x64.Build.0 = Debug|x64
+		{CC8E7036-859B-4338-83D8-290A6FAAFF4C}.Release|x64.ActiveCfg = Release|x64
+		{CC8E7036-859B-4338-83D8-290A6FAAFF4C}.Release|x64.Build.0 = Release|x64
+		{2A8DC547-9ABE-4C5A-9965-C462A4590746}.Debug|x64.ActiveCfg = Debug|x64
+		{2A8DC547-9ABE-4C5A-9965-C462A4590746}.Debug|x64.Build.0 = Debug|x64
+		{2A8DC547-9ABE-4C5A-9965-C462A4590746}.Release|x64.ActiveCfg = Release|x64
+		{2A8DC547-9ABE-4C5A-9965-C462A4590746}.Release|x64.Build.0 = Release|x64
+		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Debug|x64.ActiveCfg = Debug|x64
+		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Debug|x64.Build.0 = Debug|x64
+		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Release|x64.ActiveCfg = Release|x64
+		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

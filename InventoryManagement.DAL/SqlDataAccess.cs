@@ -1,32 +1,68 @@
-﻿using InventoryManagement.Common.Configuration.Options;
+﻿
 using InventoryManagement.Common.Models;
 using InventoryManagement.DAL.Interfaces;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace InventoryManagement.DAL
 {
     public class SqlDataAccess : ISqlDataAccess
     {
-        private readonly ConnectionStringsOptions _conStringOptions;
-        public SqlDataAccess(IOptions<ConnectionStringsOptions> conStringOptions)
+        private DatabaseContext _databaseContext;
+        public SqlDataAccess()
         {
-            _conStringOptions = conStringOptions.Value;
+            _databaseContext = new DatabaseContext();
         }
-        public void AddProduct(ProductIn productIn)
+        ~SqlDataAccess()
         {
-            
+            _databaseContext.Dispose();
+        }
+        public int AddProduct(Product productIn)
+        {
+            int success;
+            try
+            {
+                _databaseContext.Products.Add(new Product
+                {
+                    Name = productIn.Name,
+                    NoOfItems = productIn.NoOfItems,
+                    RetailPrice = productIn.RetailPrice,
+                    WholeSalePrice = productIn.WholeSalePrice,
+                    CategoryId = productIn.CategoryId,
+                    Description = productIn.Description
+                });
+                success = _databaseContext.SaveChanges();
+                return success;
+            }
+            catch(Exception ex)
+            {
+                //implement logger 
+                return 0;
+            }
+          
         }
 
-        public IList<ProductOut> GetAllProducts()
+        public IList<Product> GetAllProducts()
         {
             throw new NotImplementedException();
         }
 
-        public ProductOut GetProduct(int productId)
+        public Product GetProduct(int productId)
         {
-            throw new NotImplementedException();
+            Product product;
+            try
+            {
+                product = _databaseContext.Products
+                   .OrderBy(p => p.Id)
+                   .First();
+                return product;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

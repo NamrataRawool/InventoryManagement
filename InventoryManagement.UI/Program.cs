@@ -1,5 +1,7 @@
+using InventoryManagement.DAL;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace InventoryManagement.UI
 {
@@ -7,6 +9,13 @@ namespace InventoryManagement.UI
     {
         public static void Main(string[] args)
         {
+            if (!File.Exists("InventoryDb.db"))
+            {
+                using (var db = new DatabaseContext())
+                {
+                    db.Database.EnsureCreated();
+                }
+            }
             CreateWebHostBuilder(args).Build().Run();
         }
 

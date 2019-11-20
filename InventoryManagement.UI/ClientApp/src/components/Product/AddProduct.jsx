@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../../styles/addproduct.css";
 import Axios from "axios";
-import Popup from "reactjs-popup";
 
 class AddProduct extends Component {
   state = {

@@ -6,11 +6,11 @@ using System.Text;
 
 namespace InventoryManagement.Common.Models
 {
-    public class ProductOut
+    public class Category
     {
-        [Required]
+        [Key]
         [JsonProperty]
-        public string Id
+        public int Id
         {
             get;
             set;
@@ -24,28 +24,14 @@ namespace InventoryManagement.Common.Models
         }
         [Required]
         [JsonProperty]
-        public string Category
+        public string Description
         {
             get;
             set;
         }
         [Required]
         [JsonProperty]
-        public int Price
-        {
-            get;
-            set;
-        }
-        [Required]
-        [JsonProperty]
-        public int NoOfItems
-        {
-            get;
-            set;
-        }
-        [Required]
-        [JsonProperty]
-        public string HttpStatus
+        public string Discount
         {
             get;
             set;

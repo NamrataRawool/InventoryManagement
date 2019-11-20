@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using InventoryManagement.Common.Models;
+using InventoryManagement.DAL;
 using InventoryManagement.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace InventoryManagement.UI.Controllers
 {
@@ -18,37 +17,27 @@ namespace InventoryManagement.UI.Controllers
         }
         [HttpGet]
         [Route("Get({productId})")]
-        public ProductOut Get([FromRoute] string productId)
+        public Product Get([FromRoute] int productId)
         {
-            ProductOut product = new ProductOut();
-            product.Id = productId;
-            product.HttpStatus = "Ok";
+            Product product = _sqlDataAccess.GetProduct(productId);
             return product;
         }
 
         [HttpGet]
         [Route("GetAll")]
-        public ProductOut GetAll()
+        public Product GetAll()
         {
-            ProductOut product = new ProductOut();
-            product.HttpStatus = "Ok";
-   
+            Product product = new Product();
             return product;
         }
 
         [HttpPost]
         [Route("Add")]
-        public ProductOut AddProduct([FromBody]ProductIn productIn)
+        public int AddProduct([FromBody]Product productIn)
         {
-            ProductOut product = new ProductOut();
-            if (productIn == null)
-            {
-                product.HttpStatus = "Invalid input";
-                return product;
-            }
-            product.HttpStatus = "Ok";
-            product.Name = productIn.Name;
-            return product;
+            var productOut = _sqlDataAccess.AddProduct(productIn);
+          
+            return productOut;
         }
 
     }

@@ -6,8 +6,15 @@ using System.Text;
 
 namespace InventoryManagement.Common.Models
 {
-    public class ProductIn
+    public class Product
     {
+        [Key]
+        [JsonProperty]
+        public int Id
+        {
+            get;
+            set;
+        }
         [Required]
         [JsonProperty]
         public string Name
@@ -15,16 +22,30 @@ namespace InventoryManagement.Common.Models
             get;
             set;
         }
-        [Required]
+
         [JsonProperty]
-        public string Category
+        public string Description
         {
             get;
             set;
         }
         [Required]
         [JsonProperty]
-        public int Price
+        public Category category
+        {
+            get;
+            set;
+        }
+        [Required]
+        [JsonProperty]
+        public int RetailPrice
+        {
+            get;
+            set;
+        }
+        [Required]
+        [JsonProperty]
+        public int WholeSalePrice
         {
             get;
             set;

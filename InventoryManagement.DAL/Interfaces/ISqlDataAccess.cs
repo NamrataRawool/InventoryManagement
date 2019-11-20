@@ -7,10 +7,10 @@ namespace InventoryManagement.DAL.Interfaces
 {
     public interface ISqlDataAccess
     {
-        void AddProduct(ProductIn productIn);
+        int AddProduct(Product productIn);
 
-        ProductOut GetProduct(int productId);
+        Product GetProduct(int productId);
 
-        IList<ProductOut> GetAllProducts();
+        IList<Product> GetAllProducts();
     }
 }
