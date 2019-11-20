@@ -10,7 +10,7 @@ namespace InventoryManagement.Common.Models
     {
         [Key]
         [JsonProperty]
-        public int Id
+        public int ProductID
         {
             get;
             set;
@@ -31,7 +31,7 @@ namespace InventoryManagement.Common.Models
         }
         [Required]
         [JsonProperty]
-        public Category category
+        public int CategoryID
         {
             get;
             set;
@@ -53,6 +53,12 @@ namespace InventoryManagement.Common.Models
         [Required]
         [JsonProperty]
         public int NoOfItems
+        {
+            get;
+            set;
+        }
+
+        public Category Category
         {
             get;
             set;

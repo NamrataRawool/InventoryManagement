@@ -11,6 +11,6 @@ namespace InventoryManagement.DAL.Interfaces
 
         Product GetProduct(int productId);
 
-        IList<Product> GetAllProducts();
+        List<Product> GetAllProducts();
     }
 }

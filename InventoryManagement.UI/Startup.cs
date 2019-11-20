@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
 
 namespace InventoryManagement.UI
 {
@@ -17,6 +20,7 @@ namespace InventoryManagement.UI
             Configuration = configuration;
         }
 
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -26,7 +30,7 @@ namespace InventoryManagement.UI
 
             services.AddEntityFrameworkSqlite()
                 .AddDbContext<DatabaseContext>();
-
+           
 
             services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 

@@ -10,7 +10,7 @@ namespace InventoryManagement.Common.Models
     {
         [Key]
         [JsonProperty]
-        public int Id
+        public int CategoryID
         {
             get;
             set;

@@ -12,14 +12,9 @@ namespace InventoryManagement.DAL
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //var connStringBuilder = new SqliteConnectionStringBuilder { DataSource = "InventoryDb.db" };
-            //var connectionString = connStringBuilder.ToString();
-            //var connection = new SqliteConnection(connectionString);
-
-            //optionsBuilder.UseSqlite(connection);
-
             optionsBuilder.UseSqlite("Filename=InventoryDb.db", options =>
             {
                 options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
@@ -27,19 +22,22 @@ namespace InventoryManagement.DAL
 
             base.OnConfiguring(optionsBuilder);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Map table names
-            modelBuilder.Entity<Product>().ToTable("Products", "test");
+            modelBuilder.Entity<Product>().ToTable("Products");
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).ValueGeneratedOnAdd(); 
+                entity.HasKey(e => e.ProductID);
+                entity.Property(e => e.ProductID).ValueGeneratedOnAdd(); 
             });
+
+            modelBuilder.Entity<Category>().ToTable("Categories");
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.CategoryID);
+                entity.Property(e => e.CategoryID).ValueGeneratedOnAdd();
             });
             base.OnModelCreating(modelBuilder);
         }

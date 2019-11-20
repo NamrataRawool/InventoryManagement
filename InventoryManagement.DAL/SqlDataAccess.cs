@@ -24,15 +24,7 @@ namespace InventoryManagement.DAL
             int success;
             try
             {
-                _databaseContext.Products.Add(new Product
-                {
-                    Name = productIn.Name,
-                    NoOfItems = productIn.NoOfItems,
-                    RetailPrice = productIn.RetailPrice,
-                    WholeSalePrice = productIn.WholeSalePrice,
-                    CategoryId = productIn.CategoryId,
-                    Description = productIn.Description
-                });
+                _databaseContext.Products.Add(productIn);
                 success = _databaseContext.SaveChanges();
                 return success;
             }
@@ -44,9 +36,17 @@ namespace InventoryManagement.DAL
           
         }
 
-        public IList<Product> GetAllProducts()
+        public List<Product> GetAllProducts()
         {
-            throw new NotImplementedException();
+            try
+            {
+              return  _databaseContext.Products.ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Product GetProduct(int productId)
@@ -55,7 +55,7 @@ namespace InventoryManagement.DAL
             try
             {
                 product = _databaseContext.Products
-                   .OrderBy(p => p.Id)
+                   .OrderBy(p => p.ProductID)
                    .First();
                 return product;
             }
