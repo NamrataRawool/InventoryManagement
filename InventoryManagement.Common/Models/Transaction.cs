@@ -30,11 +30,5 @@ namespace InventoryManagement.Common.Models
             get;
             set;
         }
-        [NotMapped]
-        public List<Product> Products
-        {
-            get;
-            set;
-        }
     }
 }

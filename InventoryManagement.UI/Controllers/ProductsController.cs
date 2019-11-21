@@ -131,5 +131,20 @@ namespace InventoryManagement.UI.Controllers
         {
             return _context.Products.Any(e => e.ProductID == id);
         }
+
+
+        public async Task<List<Product>> GetSelectedProducts(List<string> productIds)
+        {
+            List<Product> prodList = new List<Product>();
+            foreach (var productId in productIds)
+            {
+                var product = await GetProduct(Convert.ToInt32(productId.Trim()));
+                if (product == null)
+                    continue;
+                prodList.Add(product.Value);
+            }
+            return prodList;
+        }
+
     }
 }
