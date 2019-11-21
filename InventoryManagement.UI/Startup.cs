@@ -1,6 +1,6 @@
 
-using InventoryManagement.DAL;
-using InventoryManagement.DAL.Interfaces;
+using InventoryManagement.Common.Configuration.Options;
+using InventoryManagement.UI.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +29,9 @@ namespace InventoryManagement.UI
             services.AddMvc().AddControllersAsServices().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddEntityFrameworkSqlite()
-                .AddDbContext<DatabaseContext>();
-           
+                .AddDbContext<InventoryDBContext>();
 
-            services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
-
-
+            services.Configure<SharedMediaConfigOptions>(Configuration.GetSection("SharedMediaConfigOptions"));
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

@@ -15,6 +15,20 @@ namespace InventoryManagement.Common.Models
             get;
             set;
         }
+      
+        [JsonProperty]
+        public int CategoryID
+        {
+            get;
+            set;
+        }
+        [Required]
+        [JsonProperty]
+        public string ImagePath
+        {
+            get;
+            set;
+        }
         [Required]
         [JsonProperty]
         public string Name
@@ -29,13 +43,7 @@ namespace InventoryManagement.Common.Models
             get;
             set;
         }
-        [Required]
-        [JsonProperty]
-        public int CategoryID
-        {
-            get;
-            set;
-        }
+   
         [Required]
         [JsonProperty]
         public int RetailPrice
@@ -57,11 +65,12 @@ namespace InventoryManagement.Common.Models
             get;
             set;
         }
-
+        //Navigation Property
         public Category Category
         {
             get;
             set;
         }
+
     }
 }

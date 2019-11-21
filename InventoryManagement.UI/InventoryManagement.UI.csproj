@@ -15,6 +15,12 @@
     <PackageReference Include="axios" Version="0.16.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,11 +32,11 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\components\" />
+    <Folder Include="shared\media\images\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InventoryManagement.Common\InventoryManagement.Common.csproj" />
-    <ProjectReference Include="..\InventoryManagement.DAL\InventoryManagement.DAL.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

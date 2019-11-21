@@ -18,8 +18,4 @@
     <ProjectReference Include="..\InventoryManagement.Common\InventoryManagement.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

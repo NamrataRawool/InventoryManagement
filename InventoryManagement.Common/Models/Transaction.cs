@@ -2,50 +2,36 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace InventoryManagement.Common.Models
 {
-    public class Category
+    public class Transaction
     {
         [Key]
         [JsonProperty]
-        public int CategoryID
-        {
-            get;
-            set;
-        }
-       
-        [JsonProperty]
-        public int TaxID
-        {
-            get;
-            set;
-        }
-
-        [Required]
-        [JsonProperty]
-        public string Name
-        {
-            get;
-            set;
-        }
-      
-        [JsonProperty]
-        public string Description
+        public int TransactionID
         {
             get;
             set;
         }
         [Required]
         [JsonProperty]
-        public int Discount
+        public int TotalPrice
         {
             get;
             set;
         }
-        //Navigation Property
-        public Tax Tax
+        [Required]
+        [JsonProperty]
+        public string ProductIDs
+        {
+            get;
+            set;
+        }
+        [NotMapped]
+        public List<Product> Products
         {
             get;
             set;

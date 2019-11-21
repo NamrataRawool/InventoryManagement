@@ -6,18 +6,18 @@ using System.Text;
 
 namespace InventoryManagement.Common.Models
 {
-    public class Category
+    public class Tax
     {
         [Key]
         [JsonProperty]
-        public int CategoryID
+        public int TaxID
         {
             get;
             set;
         }
-       
+        [Required]
         [JsonProperty]
-        public int TaxID
+        public int CGST
         {
             get;
             set;
@@ -25,30 +25,11 @@ namespace InventoryManagement.Common.Models
 
         [Required]
         [JsonProperty]
-        public string Name
+        public int SGST
         {
             get;
             set;
         }
-      
-        [JsonProperty]
-        public string Description
-        {
-            get;
-            set;
-        }
-        [Required]
-        [JsonProperty]
-        public int Discount
-        {
-            get;
-            set;
-        }
-        //Navigation Property
-        public Tax Tax
-        {
-            get;
-            set;
-        }
+
     }
 }
