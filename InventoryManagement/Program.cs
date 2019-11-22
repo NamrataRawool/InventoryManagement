@@ -1,5 +1,5 @@
 using InventoryManagement.Common.Models;
-using InventoryManagement.UI.DAL;
+using InventoryManagement.DAL;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace InventoryManagement.UI
+namespace InventoryManagement
 {
     public class Program
     {

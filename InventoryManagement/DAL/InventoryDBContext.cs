@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace InventoryManagement.UI.DAL
+namespace InventoryManagement.DAL
 {
     public class InventoryDBContext : DbContext
     {

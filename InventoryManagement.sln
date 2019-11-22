@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.UI", "InventoryManagement.UI\InventoryManagement.UI.csproj", "{CC8E7036-859B-4338-83D8-290A6FAAFF4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement", "InventoryManagement\InventoryManagement.csproj", "{CC8E7036-859B-4338-83D8-290A6FAAFF4C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement.Common", "InventoryManagement.Common\InventoryManagement.Common.csproj", "{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}"
 EndProject

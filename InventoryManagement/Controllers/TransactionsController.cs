@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InventoryManagement.Common.Models;
-using InventoryManagement.UI.DAL;
+using InventoryManagement.DAL;
 using System.Data.SqlClient;
 
-namespace InventoryManagement.UI.Controllers
+namespace InventoryManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
