@@ -25,14 +25,20 @@ namespace InventoryDBManagement.Controllers
         [HttpGet("/Categories")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories
+                .Include(c => c.Tax)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         // GET: api/Category/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _context.Categories
+                .Include(c => c.Tax)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.CategoryID == id);
 
             if (category == null)
             {

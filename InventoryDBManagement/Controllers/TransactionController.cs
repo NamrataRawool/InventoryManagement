@@ -24,31 +24,24 @@ namespace InventoryDBManagement.Controllers
 
         // GET: api/Transactions
         [HttpGet("/Transactions")]
-        public async Task<ActionResult<TransactionProduct>> GetTransactions()
+        public async Task<ActionResult<List<Transaction>>> GetTransactions()
         {
             var transactions = await _context.Transactions.ToListAsync();
             if (transactions == null)
                 return NotFound();
+            List<Transaction> transactionList = new List<Transaction>();
 
-
-            string productIds = string.Empty;
             foreach (var transaction in transactions)
             {
-                productIds += transaction.ProductIDs + ",";
+                var trans = await GetTransaction(transaction.TransactionID);
+                transactionList.Add(trans.Value);
             }
-            var distinctIds = productIds.Split(',').Distinct().ToList();
-            distinctIds.RemoveAll(str => String.IsNullOrEmpty(str));
-
-            TransactionProduct transactionProducts = new TransactionProduct();
-            transactionProducts.Transactions = transactions;
-            transactionProducts.Products = await _productsController.GetSelectedProducts(distinctIds);
-
-            return transactionProducts;
+            return transactionList;
         }
 
         // GET: api/Transaction/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TransactionProduct>> GetTransaction(int id)
+        public async Task<ActionResult<Transaction>> GetTransaction(int id)
         {
             try
             {
@@ -61,13 +54,8 @@ namespace InventoryDBManagement.Controllers
                     return NotFound();
                 }
                 string[] productIDs = transaction.ProductIDs.Split(',');
-
-                TransactionProduct transactionProducts = new TransactionProduct();
-                List<Transaction> transList = new List<Transaction>();
-                transList.Add(transaction);
-                transactionProducts.Products = await _productsController.GetSelectedProducts(productIDs.ToList());
-                transactionProducts.Transactions = transList;
-                return transactionProducts;
+                transaction.ProductDetails = await _productsController.GetSelectedProducts(productIDs.ToList());
+                return transaction;
             }
             catch (Exception)
             {
@@ -108,7 +96,7 @@ namespace InventoryDBManagement.Controllers
 
         // POST: api/Transaction
         [HttpPost]
-        public async Task<ActionResult<TransactionProduct>> PostTransaction(Transaction transaction)
+        public async Task<ActionResult<Transaction>> PostTransaction(Transaction transaction)
         {
             try
             {
