@@ -10,25 +10,25 @@ using InventoryManagement.Common.Models;
 
 namespace InventoryDBManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class TaxesController : ControllerBase
+    public class TaxController : ControllerBase
     {
         private readonly InventoryDBContext _context;
 
-        public TaxesController(InventoryDBContext context)
+        public TaxController(InventoryDBContext context)
         {
             _context = context;
         }
 
         // GET: api/Taxes
-        [HttpGet]
+        [HttpGet("/Taxes")]
         public async Task<ActionResult<IEnumerable<Tax>>> GetTaxes()
         {
             return await _context.Taxes.ToListAsync();
         }
 
-        // GET: api/Taxes/5
+        // GET: api/Tax/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tax>> GetTax(int id)
         {
@@ -42,7 +42,7 @@ namespace InventoryDBManagement.Controllers
             return tax;
         }
 
-        // PUT: api/Taxes/5
+        // PUT: api/Tax/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTax(int id, Tax tax)
         {
@@ -72,7 +72,7 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/Taxes
+        // POST: api/Tax
         [HttpPost]
         public async Task<ActionResult<Tax>> PostTax(Tax tax)
         {
@@ -82,7 +82,7 @@ namespace InventoryDBManagement.Controllers
             return CreatedAtAction("GetTax", new { id = tax.TaxID }, tax);
         }
 
-        // DELETE: api/Taxes/5
+        // DELETE: api/Tax/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Tax>> DeleteTax(int id)
         {

@@ -10,25 +10,25 @@ using InventoryManagement.Common.Models;
 
 namespace InventoryDBManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         private readonly InventoryDBContext _context;
 
-        public CategoriesController(InventoryDBContext context)
+        public CategoryController(InventoryDBContext context)
         {
             _context = context;
         }
 
         // GET: api/Categories
-        [HttpGet]
+        [HttpGet("/Categories")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
             return await _context.Categories.ToListAsync();
         }
 
-        // GET: api/Categories/5
+        // GET: api/Category/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
@@ -42,7 +42,7 @@ namespace InventoryDBManagement.Controllers
             return category;
         }
 
-        // PUT: api/Categories/5
+        // PUT: api/Category/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
@@ -72,7 +72,7 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/Categories
+        // POST: api/Category
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
@@ -91,7 +91,7 @@ namespace InventoryDBManagement.Controllers
 
         }
 
-        // DELETE: api/Categories/5
+        // DELETE: api/Category/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Category>> DeleteCategory(int id)
         {

@@ -10,20 +10,20 @@ using InventoryManagement.Common.Models;
 
 namespace InventoryDBManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class TransactionsController : ControllerBase
+    public class TransactionController : ControllerBase
     {
         private readonly InventoryDBContext _context;
-        private readonly ProductsController _productsController;
-        public TransactionsController(InventoryDBContext context, ProductsController productsController)
+        private readonly ProductController _productsController;
+        public TransactionController(InventoryDBContext context, ProductController productsController)
         {
             _context = context;
             _productsController = productsController;
         }
 
         // GET: api/Transactions
-        [HttpGet]
+        [HttpGet("/Transactions")]
         public async Task<ActionResult<TransactionProduct>> GetTransactions()
         {
             var transactions = await _context.Transactions.ToListAsync();
@@ -46,7 +46,7 @@ namespace InventoryDBManagement.Controllers
             return transactionProducts;
         }
 
-        // GET: api/Transactions/5
+        // GET: api/Transaction/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionProduct>> GetTransaction(int id)
         {
@@ -76,7 +76,7 @@ namespace InventoryDBManagement.Controllers
 
         }
 
-        // PUT: api/Transactions/5
+        // PUT: api/Transaction/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTransaction(int id, Transaction transaction)
         {
@@ -106,7 +106,7 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/Transactions
+        // POST: api/Transaction
         [HttpPost]
         public async Task<ActionResult<TransactionProduct>> PostTransaction(Transaction transaction)
         {
@@ -124,7 +124,7 @@ namespace InventoryDBManagement.Controllers
 
         }
 
-        // DELETE: api/Transactions/5
+        // DELETE: api/Transaction/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Transaction>> DeleteTransaction(int id)
         {

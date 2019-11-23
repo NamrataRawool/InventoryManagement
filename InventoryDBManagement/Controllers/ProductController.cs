@@ -13,27 +13,27 @@ using Microsoft.Extensions.Options;
 
 namespace InventoryDBManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly InventoryDBContext _context;
         SharedMediaConfigOptions _sharedMediaOptions;
 
-        public ProductsController(IOptions<SharedMediaConfigOptions> sharedMediaOptions, InventoryDBContext context)
+        public ProductController(IOptions<SharedMediaConfigOptions> sharedMediaOptions, InventoryDBContext context)
         {
             _context = context;
             _sharedMediaOptions = sharedMediaOptions.Value;
         }
 
         // GET: api/Products
-        [HttpGet]
+        [HttpGet("/Products")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Product/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
@@ -47,7 +47,7 @@ namespace InventoryDBManagement.Controllers
             return product;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Product/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
@@ -77,7 +77,7 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+        // POST: api/Product
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
@@ -111,7 +111,7 @@ namespace InventoryDBManagement.Controllers
 
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Product/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
@@ -127,6 +127,7 @@ namespace InventoryDBManagement.Controllers
             return product;
         }
 
+        #region Private Methods
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ProductID == id);
@@ -145,6 +146,6 @@ namespace InventoryDBManagement.Controllers
             }
             return prodList;
         }
-
+        #endregion
     }
 }
