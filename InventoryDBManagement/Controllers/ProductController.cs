@@ -31,7 +31,7 @@ namespace InventoryDBManagement.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products
-                .Include(p=> p.Category)
+                .Include(p => p.Category)
                 .ThenInclude(c => c.Tax)
                 .AsNoTracking().
                 ToListAsync();
@@ -92,36 +92,25 @@ namespace InventoryDBManagement.Controllers
         {
             try
             {
-                var imageDirPath = Path.Combine(Environment.CurrentDirectory, @"Images\");
-                if (!Directory.Exists(imageDirPath))
-                {
-                    Directory.CreateDirectory(imageDirPath);
-                }
-                if (System.IO.File.Exists(product.ImagePath))
-                {
-                    //New path images folder
-                    var imagePath = Path.Combine(imageDirPath, Path.GetFileName(product.ImagePath));
-                    if (!System.IO.File.Exists(imagePath))
-                        System.IO.File.Copy(product.ImagePath, imagePath);
-
-                    product.ImagePath = Path.GetFileName(product.ImagePath);
-
-                }
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
+                product = CreatedAtAction("GetProduct", new { id = product.ProductID }, product).Value as Product;
+                product.ImagePath = SaveImage(product.ProductID, product.ImagePath);
+
+                await PutProduct(product.ProductID, product);
+
+                return product;
             }
             catch (Exception ex)
             {
-
                 throw;
             }
 
         }
 
         // DELETE: api/Product/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{ id}")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
@@ -136,13 +125,9 @@ namespace InventoryDBManagement.Controllers
             return product;
         }
 
-        #region Private Methods
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.ProductID == id);
-        }
 
 
+        #region Public Methods
         public async Task<List<Product>> GetSelectedProducts(List<string> productIds)
         {
             List<Product> prodList = new List<Product>();
@@ -154,6 +139,34 @@ namespace InventoryDBManagement.Controllers
                 prodList.Add(product.Value);
             }
             return prodList;
+        }
+        #endregion
+        #region Private Methods
+        private bool ProductExists(int id)
+        {
+            return _context.Products.Any(e => e.ProductID == id);
+        }
+
+        private string SaveImage(int productId, string imagePath)
+        {
+            var relativePath = String.Format("{0}{1}", @"shared\media\images\products\", productId);
+            var imageDirPath = Path.Combine(Environment.CurrentDirectory, "wwwroot", relativePath);
+
+            if (!Directory.Exists(imageDirPath))
+            {
+                Directory.CreateDirectory(imageDirPath);
+            }
+            if (System.IO.File.Exists(imagePath))
+            {
+                //New path images folder
+                var destPath = Path.Combine(imageDirPath, Path.GetFileName(imagePath));
+                if (!System.IO.File.Exists(destPath))
+                    System.IO.File.Copy(imagePath, destPath);
+
+                var storePath = String.Format("{0}\\{1}", relativePath, Path.GetFileName(imagePath));
+                return storePath;
+            }
+            return null;
         }
         #endregion
     }
