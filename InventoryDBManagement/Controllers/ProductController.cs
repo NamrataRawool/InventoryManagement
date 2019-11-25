@@ -52,7 +52,6 @@ namespace InventoryDBManagement.Controllers
             {
                 return NotFound();
             }
-            product.ImagePath = Path.Combine(Environment.CurrentDirectory, _sharedMediaOptions.Image, product.ImagePath);
             return product;
         }
 
