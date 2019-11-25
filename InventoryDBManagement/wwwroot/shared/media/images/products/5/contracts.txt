@@ -1,0 +1,197 @@
+api samples: {
+
+    getById : "http://localhost:8080/product/{id}"
+    getAll: "http://localhost:8080/products"
+    post: "http://localhost:8080/product",
+    put: "http://localhost:8080/product/{id} (id can be passed in body as well as query parameter)"
+    delete: "http://localhost:8080/product/{id} (id can be passed in body as well as query parameter)"
+
+    please follow same format in overall api creation.
+}
+
+
+
+
+product: {
+    "productId": "0",
+    "productName":" Apple Ipad",
+    "productDescription": "Ipad black",
+    "imageUrl": "/images/{productId}/.jpg",
+    "productMRP": "$230",
+    "productWholeSalePrice": "$210",
+    "productBarcode": "31244253",
+    "categoryId": "1",
+    "categroyName": "Electronics",
+    "categoryDescription": "all electionics items",
+    "cgst":  "8%",
+    "sgst": "10%"
+
+} 
+
+
+allproducts: [
+    
+        {
+            "productId": "0",
+            "productName":" Apple Ipad",
+            "productDescription": "Ipad black",
+            "imageUrl": "/images/{productId}/.jpg",
+            "productMRP": "$230",
+            "productWholeSalePrice": "$210",
+            "productBarcode": "31244253",
+            "categoryId": "1",
+            "categroyName": "Electronics",
+            "categoryDescription": "all electionics items",
+            "cgst":  "8%",
+            "sgst": "10%"
+        
+        },
+        {
+        
+              "productId": "0",
+                "productName":" Apple Ipad",
+                "productDescription": "Ipad black",
+                "imageUrl": "/images/{productId}/.jpg",
+                "productMRP": "$230",
+                "productWholeSalePrice": "$210",
+                "productBarcode": "31244253",
+                "categoryId": "1",
+                "categroyName": "Electronics",
+                "categoryDescription": "all electionics items",
+                "cgst":  "8%",
+                "sgst": "10%"
+            
+            
+        },
+        {
+            "productId": "0",
+            "productName":" Apple Ipad",
+            "productDescription": "Ipad black",
+            "imageUrl": "/images/{productId}/.jpg",
+            "productMRP": "$230",
+            "productWholeSalePrice": "$210",
+            "productBarcode": "31244253",
+            "categoryId": "1",
+            "categroyName": "Electronics",
+            "categoryDescription": "all electionics items",
+            "cgst":  "8%",
+            "sgst": "10%"
+        
+        },
+        {
+            "productId": "0",
+            "productName":" Apple Ipad",
+            "productDescription": "Ipad black",
+            "imageUrl": "/images/{productId}/.jpg",
+            "productMRP": "$230",
+            "productWholeSalePrice": "$210",
+            "productBarcode": "31244253",
+            "categoryId": "1",
+            "categroyName": "Electronics",
+            "categoryDescription": "all electionics items",
+            "cgst":  "8%",
+            "sgst": "10%"
+        
+        },
+        {
+            "productId": "0",
+            "productName":" Apple Ipad",
+            "productDescription": "Ipad black",
+            "imageUrl": "/images/{productId}/.jpg",
+            "productMRP": "$230",
+            "productWholeSalePrice": "$210",
+            "productBarcode": "31244253",
+            "categoryId": "1",
+            "categroyName": "Electronics",
+            "categoryDescription": "all electionics items",
+            "cgst":  "8%",
+            "sgst": "10%"
+        
+        } 
+
+    ]
+
+
+    category: {
+        "categoryId": "1",
+        "categroyName": "Electronics",
+        "categoryDescription": "all electionics items",
+        "cgst":  "8%",
+        "sgst": "10%"   
+    }
+
+
+    allCategories: [{
+        "categoryId": "1",
+        "categroyName": "Electronics",
+        "categoryDescription": "all electionics items",
+        "cgst":  "8%",
+        "sgst": "10%"   
+    },
+    {
+        "categoryId": "2",
+        "categroyName": "Electronics",
+        "categoryDescription": "all electionics items",
+        "cgst":  "8%",
+        "sgst": "10%"   
+    },
+    {
+        "categoryId": "3",
+        "categroyName": "Electronics",
+        "categoryDescription": "all electionics items",
+        "cgst":  "8%",
+        "sgst": "10%"   
+    }]
+
+
+
+    transaction: {
+        "transactionId" : "1",
+        "totalPrice":"$1000",
+        "productDetails": [{
+        "productId": "0",
+         "productQuantity" : 3,
+        "productName":" Apple Ipad",
+        "productDescription": "Ipad black",
+        "actualPrice": "$250",
+        "productBarcode": "31244253",
+        "categoryId": "1",
+        "categroyName": "Electronics",
+        "categoryDescription": "all electionics items",
+        "totalTax": "18%"
+
+    },
+    {
+        "transactionId" : "1",
+        "totalPrice":"$1000",
+        "productDetails": [{
+        "productId": "0",
+         "productQuantity" : 3,
+        "productName":" Apple Ipad",
+        "productDescription": "Ipad black",
+        "actualPrice": "$250",
+        "productBarcode": "31244253",
+        "categoryId": "1",
+        "categroyName": "Electronics",
+        "categoryDescription": "all electionics items",
+        "totalTax": "18%"
+
+    },
+    {
+        "transactionId" : "1",
+        "totalPrice":"$1000",
+        "productDetails": [{
+        "productId": "0",
+         "productQuantity" : 3,
+        "productName":" Apple Ipad",
+        "productDescription": "Ipad black",
+        "actualPrice": "$250",
+        "productBarcode": "31244253",
+        "categoryId": "1",
+        "categroyName": "Electronics",
+        "categoryDescription": "all electionics items",
+        "totalTax": "18%"
+
+    }] 
+
+    }
