@@ -6,12 +6,17 @@ namespace InventoryManagement.Common.Configuration.Options
 {
     public class SharedMediaConfigOptions
     {
-        public string Image
+        public string Products
         {
             get;
             set;
         }
-        public string Videos
+        public string Categories
+        {
+            get;
+            set;
+        }
+        public string Transactions
         {
             get;
             set;

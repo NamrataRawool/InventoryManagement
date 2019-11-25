@@ -10,6 +10,7 @@ using InventoryManagement.Common.Models;
 using System.IO;
 using InventoryManagement.Common.Configuration.Options;
 using Microsoft.Extensions.Options;
+using InventoryManagement.Common.Utils;
 
 namespace InventoryDBManagement.Controllers
 {
@@ -18,12 +19,14 @@ namespace InventoryDBManagement.Controllers
     public class ProductController : ControllerBase
     {
         private readonly InventoryDBContext _context;
-        SharedMediaConfigOptions _sharedMediaOptions;
+        private readonly IMediaSaver _mediaSaver;
+        private readonly SharedMediaConfigOptions _sharedMediaOptions;
 
-        public ProductController(IOptions<SharedMediaConfigOptions> sharedMediaOptions, InventoryDBContext context)
+        public ProductController(InventoryDBContext context, IOptions<SharedMediaConfigOptions> sharedMediaOptions, IMediaSaver mediaSaver)
         {
             _context = context;
             _sharedMediaOptions = sharedMediaOptions.Value;
+            _mediaSaver = mediaSaver;
         }
 
         // GET: api/Products
@@ -95,10 +98,19 @@ namespace InventoryDBManagement.Controllers
                 await _context.SaveChangesAsync();
 
                 product = CreatedAtAction("GetProduct", new { id = product.ProductID }, product).Value as Product;
-                product.ImagePath = SaveImage(product.ProductID, product.ImagePath);
 
-                await PutProduct(product.ProductID, product);
+                var imageName = Path.GetFileName(product.ImagePath);
+                var relativeDestPath = Path.Combine( _sharedMediaOptions.Products, product.ProductID.ToString(), imageName);
+                
+                //Temporary 
+                byte[] image = System.IO.File.ReadAllBytes(product.ImagePath);
 
+                bool success = _mediaSaver.SaveImage(image, relativeDestPath);
+                if (success)
+                {
+                    product.ImagePath = relativeDestPath;
+                    await PutProduct(product.ProductID, product);
+                }
                 return product;
             }
             catch (Exception ex)
@@ -144,28 +156,6 @@ namespace InventoryDBManagement.Controllers
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ProductID == id);
-        }
-
-        private string SaveImage(int productId, string imagePath)
-        {
-            var relativePath = String.Format("{0}{1}", @"shared\media\images\products\", productId);
-            var imageDirPath = Path.Combine(Environment.CurrentDirectory, "wwwroot", relativePath);
-
-            if (!Directory.Exists(imageDirPath))
-            {
-                Directory.CreateDirectory(imageDirPath);
-            }
-            if (System.IO.File.Exists(imagePath))
-            {
-                //New path images folder
-                var destPath = Path.Combine(imageDirPath, Path.GetFileName(imagePath));
-                if (!System.IO.File.Exists(destPath))
-                    System.IO.File.Copy(imagePath, destPath);
-
-                var storePath = String.Format("{0}\\{1}", relativePath, Path.GetFileName(imagePath));
-                return storePath;
-            }
-            return null;
         }
         #endregion
     }

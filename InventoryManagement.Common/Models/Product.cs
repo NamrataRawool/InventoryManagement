@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace InventoryManagement.Common.Models
@@ -22,9 +23,16 @@ namespace InventoryManagement.Common.Models
             get;
             set;
         }
-        [Required]
+      
         [JsonProperty]
         public string ImagePath
+        {
+            get;
+            set;
+        }
+        [NotMapped]
+        [JsonIgnore]
+        public byte[] Image
         {
             get;
             set;
