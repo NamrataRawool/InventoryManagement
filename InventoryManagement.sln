@@ -19,8 +19,8 @@ Global
 		{4B8918A3-6E7A-4AB4-85D5-01E0342EDEDC}.Release|x64.Build.0 = Release|x64
 		{B44C0307-DDB0-42CC-A1C3-A0482B3983CF}.Debug|x64.ActiveCfg = Debug|x64
 		{B44C0307-DDB0-42CC-A1C3-A0482B3983CF}.Debug|x64.Build.0 = Debug|x64
-		{B44C0307-DDB0-42CC-A1C3-A0482B3983CF}.Release|x64.ActiveCfg = Release|Any CPU
-		{B44C0307-DDB0-42CC-A1C3-A0482B3983CF}.Release|x64.Build.0 = Release|Any CPU
+		{B44C0307-DDB0-42CC-A1C3-A0482B3983CF}.Release|x64.ActiveCfg = Release|x64
+		{B44C0307-DDB0-42CC-A1C3-A0482B3983CF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
