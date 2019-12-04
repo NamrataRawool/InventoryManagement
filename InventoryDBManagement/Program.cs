@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InventoryDBManagement.DAL;
 using InventoryManagement.Common.Models;
+using InventoryManagement.Common.Models.DTO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +28,7 @@ namespace InventoryDBManagement
                     using (var db = new InventoryDBContext())
                     {
                         db.Database.EnsureCreated();
-                        // DBinitializer(db);
+                       // DBinitializer(db);
                     }
                 }
                 catch (Exception ex)
@@ -43,20 +44,20 @@ namespace InventoryDBManagement
             if (context.Transactions.Any())
                 return;
 
-            var taxes = new Tax[]
-            {
-                new Tax{TaxID = 1, CGST = 10, SGST = 10},
-                new Tax{TaxID = 2, CGST = 20, SGST = 20},
-            };
-            foreach (var tax in taxes)
-            {
-                context.Taxes.Add(tax);
-            }
+            //var taxes = new Tax[]
+            //{
+            //    new Tax{TaxID = 1, CGST = 10, SGST = 10},
+            //    new Tax{TaxID = 2, CGST = 20, SGST = 20},
+            //};
+            //foreach (var tax in taxes)
+            //{
+            //    context.Taxes.Add(tax);
+            //}
 
             var categories = new Category[]
             {
-                 new Category{CategoryID = 1, Description = "Init1", Discount = 10, Name = "Category1", TaxID = 1},
-                 new Category{CategoryID = 2, Description = "Init2", Discount = 10, Name = "Category2", TaxID = 2}
+                 new Category{CategoryID = 1, Description = "Init1", Discount = 10, Name = "Category1", CGST = 10, SGST = 10},
+                 new Category{CategoryID = 2, Description = "Init2", Discount = 10, Name = "Category2", CGST = 20, SGST = 20}
             };
 
             foreach (var category in categories)
@@ -64,14 +65,14 @@ namespace InventoryDBManagement
                 context.Categories.Add(category);
             }
 
-            var products = new Product[]
+            var products = new ProductDTO[]
             {
-                new Product{ProductID = 1, Name = "Product1", Description="Init1", RetailPrice = 120, WholeSalePrice = 130,
-                            NoOfItems = 50, ImagePath="testpath1.jpg", CategoryID = 1},
-                 new Product{Name = "Product2", Description="Init2", RetailPrice = 140, WholeSalePrice = 160,
-                            NoOfItems = 150, ImagePath="testpath2.jpg", CategoryID = 2},
-                  new Product{ Name = "Product3", Description="Init3", RetailPrice = 140, WholeSalePrice = 160,
-                            NoOfItems = 150, ImagePath="testpath3.jpg", CategoryID = 2}
+                new ProductDTO{ProductID = 1, Name = "Product1", Description="Init1", RetailPrice = 120, WholeSalePrice = 130,
+                           ImagePath="testpath1.jpg", CategoryID = 1},
+                 new ProductDTO{Name = "Product2", Description="Init2", RetailPrice = 140, WholeSalePrice = 160,
+                           ImagePath="testpath2.jpg", CategoryID = 2},
+                  new ProductDTO{ Name = "Product3", Description="Init3", RetailPrice = 140, WholeSalePrice = 160,
+                           ImagePath="testpath3.jpg", CategoryID = 2}
             };
 
             foreach (var product in products)
@@ -81,8 +82,8 @@ namespace InventoryDBManagement
 
             var transactions = new Transaction[]
             {
-                new Transaction { TransactionID = 1, TotalPrice = 220, ProductIDs = "1,2"},
-                new Transaction { TransactionID = 2, TotalPrice = 220, ProductIDs = "2,3"}
+                new Transaction { TransactionID = 1, TotalPrice = 220, ProductIDs = "1,2", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )},
+                new Transaction { TransactionID = 2, TotalPrice = 220, ProductIDs = "2,3", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )}
             };
 
             foreach (var transaction in transactions)

@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using InventoryDBManagement.DAL;
 using InventoryManagement.Common.Models;
 using System.IO;
-using InventoryManagement.Common.Configuration.Options;
 using Microsoft.Extensions.Options;
 using InventoryManagement.Common.Utils;
+using InventoryDBManagement.Configuration.Options;
+using InventoryManagement.Common.Models.DTO;
+using InventoryManagement.Common.Models.In;
+using InventoryManagement.Common.Models.Out;
 
 namespace InventoryDBManagement.Controllers
 {
@@ -31,22 +34,27 @@ namespace InventoryDBManagement.Controllers
 
         // GET: api/Products
         [HttpGet("/Products")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductOut>>> GetProducts()
         {
-            return await _context.Products
+            var productDtos = await _context.Products
                 .Include(p => p.Category)
-                .ThenInclude(c => c.Tax)
                 .AsNoTracking().
                 ToListAsync();
+            List<ProductOut> products = new List<ProductOut>();
+            foreach (var product in productDtos)
+            {
+                var productOut = new ProductOut(product);
+                products.Add(productOut);
+            }
+            return products;
         }
 
         // GET: api/Product/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductOut>> GetProduct(int id)
         {
             var product = await _context.Products
                 .Include(p => p.Category)
-                .ThenInclude(c => c.Tax)
                 .AsNoTracking().
                 FirstOrDefaultAsync(p => p.ProductID == id);
 
@@ -55,19 +63,20 @@ namespace InventoryDBManagement.Controllers
             {
                 return NotFound();
             }
-            return product;
+
+            return new ProductOut(product);
         }
 
         // PUT: api/Product/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutProduct(int id, ProductDTO productDto)
         {
-            if (id != product.ProductID)
+            if (id != productDto.ProductID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Entry(productDto).State = EntityState.Modified;
 
             try
             {
@@ -90,28 +99,29 @@ namespace InventoryDBManagement.Controllers
 
         // POST: api/Product
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<ProductOut>> PostProduct(ProductIn productIn)
         {
             try
             {
-                _context.Products.Add(product);
+                ProductDTO productDTO = new ProductDTO(productIn);
+                _context.Products.Add(productDTO);
                 await _context.SaveChangesAsync();
 
-                product = CreatedAtAction("GetProduct", new { id = product.ProductID }, product).Value as Product;
+                productDTO = CreatedAtAction("GetProduct", new { id = productDTO.ProductID }, productDTO).Value as ProductDTO;
 
-                var imageName = Path.GetFileName(product.ImagePath);
-                var relativeDestPath = Path.Combine( _sharedMediaOptions.Products, product.ProductID.ToString(), imageName);
-                
-                //Temporary 
-                byte[] image = System.IO.File.ReadAllBytes(product.ImagePath);
+                var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ProductID.ToString(), productIn.ImageName);
+
+                //Temporary TODO: Need to pass byte array received from user
+                byte[] image = System.IO.File.ReadAllBytes("D:\\Test.jpg");
 
                 bool success = _mediaSaver.SaveImage(image, relativeDestPath);
                 if (success)
                 {
-                    product.ImagePath = relativeDestPath;
-                    await PutProduct(product.ProductID, product);
+                    productDTO.ImagePath = relativeDestPath;
+                    await PutProduct(productDTO.ProductID, productDTO);
                 }
-                return product;
+                ProductOut productOut = new ProductOut(productDTO);
+                return productOut;
             }
             catch (Exception ex)
             {
@@ -122,7 +132,7 @@ namespace InventoryDBManagement.Controllers
 
         // DELETE: api/Product/5
         [HttpDelete("{ id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public async Task<ActionResult<ProductDTO>> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
@@ -139,9 +149,9 @@ namespace InventoryDBManagement.Controllers
 
 
         #region Public Methods
-        public async Task<List<Product>> GetSelectedProducts(List<string> productIds)
+        public async Task<List<ProductOut>> GetSelectedProducts(List<string> productIds)
         {
-            List<Product> prodList = new List<Product>();
+            List<ProductOut> prodList = new List<ProductOut>();
             foreach (var productId in productIds)
             {
                 var product = await GetProduct(Convert.ToInt32(productId.Trim()));

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using InventoryManagement.Common.Models.Out;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,8 +31,15 @@ namespace InventoryManagement.Common.Models
             get;
             set;
         }
+        [Required]
+        [JsonProperty]
+        public DateTime TransactionDateTime
+        {
+            get;
+            set;
+        }
         [NotMapped]
-        public List<Product> ProductDetails
+        public List<ProductOut> ProductDetails
         {
             get;
             set;

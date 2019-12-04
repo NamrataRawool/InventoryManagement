@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace InventoryManagement.Common.Configuration.Options
+namespace InventoryDBManagement.Configuration.Options
 {
     public class SharedMediaConfigOptions
     {

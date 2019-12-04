@@ -1,4 +1,5 @@
 ﻿using InventoryManagement.Common.Models;
+using InventoryManagement.Common.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace InventoryDBManagement.DAL
 {
     public class InventoryDBContext : DbContext
     {
-        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductDTO> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Tax> Taxes { get; set; }
+        //public DbSet<Tax> Taxes { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         // public DbSet<ProductTransaction> ProductTransactions { get; set; }
 
@@ -29,8 +30,8 @@ namespace InventoryDBManagement.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Map table names
-            modelBuilder.Entity<Product>().ToTable("Products");
-            modelBuilder.Entity<Product>(entity =>
+            modelBuilder.Entity<ProductDTO>().ToTable("Products");
+            modelBuilder.Entity<ProductDTO>(entity =>
             {
                 entity.HasKey(e => e.ProductID);
                 entity.Property(e => e.ProductID).ValueGeneratedOnAdd();
@@ -44,12 +45,12 @@ namespace InventoryDBManagement.DAL
             });
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Tax>().ToTable("Taxes");
-            modelBuilder.Entity<Tax>(entity =>
-            {
-                entity.HasKey(e => e.TaxID);
-                entity.Property(e => e.TaxID).ValueGeneratedOnAdd();
-            });
+            //modelBuilder.Entity<Tax>().ToTable("Taxes");
+            //modelBuilder.Entity<Tax>(entity =>
+            //{
+            //    entity.HasKey(e => e.TaxID);
+            //    entity.Property(e => e.TaxID).ValueGeneratedOnAdd();
+            //});
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Transaction>().ToTable("Transactions");
@@ -59,19 +60,6 @@ namespace InventoryDBManagement.DAL
                 entity.Property(e => e.TransactionID).ValueGeneratedOnAdd();
             });
             base.OnModelCreating(modelBuilder);
-
-
-            //modelBuilder.Entity<ProductTransaction>()
-            //    .HasKey(pt => new { pt.ProductID, pt.TransactionID });
-            //modelBuilder.Entity<ProductTransaction>()
-            //    .HasOne<Product>(pt => pt.Product)
-            //    .WithMany(p => p.ProductTransactions)
-            //    .HasForeignKey(pt => pt.ProductID);
-
-            //modelBuilder.Entity<ProductTransaction>()
-            //    .HasOne<Transaction>(pt => pt.Transaction)
-            //    .WithMany(t => t.ProductTransactions)
-            //    .HasForeignKey(pt => pt.TransactionID);
         }
     }
 }

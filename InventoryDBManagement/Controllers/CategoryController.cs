@@ -26,7 +26,6 @@ namespace InventoryDBManagement.Controllers
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
             return await _context.Categories
-                .Include(c => c.Tax)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -36,7 +35,6 @@ namespace InventoryDBManagement.Controllers
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
             var category = await _context.Categories
-                .Include(c => c.Tax)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.CategoryID == id);
 
