@@ -25,9 +25,19 @@ namespace InventoryDBManagement.Controllers
 
         // GET: api/Customer
         [HttpGet("/Customers")]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<CustomerOut>>> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            var customersDto = await _context.Customers
+               .AsNoTracking().
+               ToListAsync();
+
+            List<CustomerOut> customers = new List<CustomerOut>();
+            foreach (var customer in customersDto)
+            {
+                var customerOut = new CustomerOut(customer);
+                customers.Add(customerOut);
+            }
+            return customers;
         }
 
         // GET: api/Customer/5

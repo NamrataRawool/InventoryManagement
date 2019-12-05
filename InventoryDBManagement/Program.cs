@@ -28,7 +28,7 @@ namespace InventoryDBManagement
                     using (var db = new InventoryDBContext())
                     {
                         db.Database.EnsureCreated();
-                        // DBinitializer(db);
+                       // DBinitializer(db);
                     }
                 }
                 catch (Exception ex)
@@ -69,9 +69,9 @@ namespace InventoryDBManagement
             {
                 new ProductDTO{ProductID = 1, Name = "Product1", Description="Init1", RetailPrice = 120, WholeSalePrice = 130,
                            ImagePath="testpath1.jpg", CategoryID = 1},
-                 new ProductDTO{Name = "Product2", Description="Init2", RetailPrice = 140, WholeSalePrice = 160,
+                 new ProductDTO{ProductID = 2, Name = "Product2", Description="Init2", RetailPrice = 140, WholeSalePrice = 160,
                            ImagePath="testpath2.jpg", CategoryID = 2},
-                  new ProductDTO{ Name = "Product3", Description="Init3", RetailPrice = 140, WholeSalePrice = 160,
+                  new ProductDTO{ProductID = 3, Name = "Product3", Description="Init3", RetailPrice = 140, WholeSalePrice = 160,
                            ImagePath="testpath3.jpg", CategoryID = 2}
             };
 
@@ -79,10 +79,24 @@ namespace InventoryDBManagement
             {
                 context.Products.Add(product);
             }
+
+
+            var stocks = new StockDTO[]
+            {
+                new StockDTO { StockID=1, ProductID =1, AvailableQuantity=12, TotalQuantity=100},
+                new StockDTO { StockID=2, ProductID =2, AvailableQuantity=56, TotalQuantity=90},
+                new StockDTO { StockID=3, ProductID =3, AvailableQuantity=33, TotalQuantity=150}
+            };
+            foreach (var stock in stocks)
+            {
+                context.Stocks.Add(stock);
+            }
+
+
             var customers = new CustomerDTO[]
             {
                 new CustomerDTO { CustomerID =1, MobileNumber = "7796351532", Email="abc@gmail.com", Name="Namrata Rawool", PendingAmount = 0, TotalAmount = 0 },
-                new CustomerDTO { MobileNumber = "8963457812", Email="def@gmail.com", Name="Aditya Bhende", PendingAmount = 0, TotalAmount = 0 }
+                new CustomerDTO {CustomerID =2, MobileNumber = "8963457812", Email="def@gmail.com", Name="Aditya Bhende", PendingAmount = 0, TotalAmount = 0 }
             };
             foreach (var customer in customers)
             {

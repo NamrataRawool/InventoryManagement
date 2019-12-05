@@ -15,6 +15,7 @@ namespace InventoryDBManagement.DAL
         public DbSet<CategoryDTO> Categories { get; set; }
         public DbSet<TransactionDTO> Transactions { get; set; }
         public DbSet<CustomerDTO> Customers { get; set; }
+        public DbSet<StockDTO> Stocks { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Filename=InventoryDb.db", options =>
@@ -63,6 +64,14 @@ namespace InventoryDBManagement.DAL
             {
                 entity.HasKey(e => e.CustomerID);
                 entity.Property(e => e.CustomerID).ValueGeneratedOnAdd();
+            });
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<StockDTO>().ToTable("Stocks");
+            modelBuilder.Entity<StockDTO>(entity =>
+            {
+                entity.HasKey(e => e.StockID);
+                entity.Property(e => e.StockID).ValueGeneratedOnAdd();
             });
             base.OnModelCreating(modelBuilder);
         }
