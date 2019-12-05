@@ -28,7 +28,7 @@ namespace InventoryDBManagement
                     using (var db = new InventoryDBContext())
                     {
                         db.Database.EnsureCreated();
-                       // DBinitializer(db);
+                        // DBinitializer(db);
                     }
                 }
                 catch (Exception ex)
@@ -79,11 +79,19 @@ namespace InventoryDBManagement
             {
                 context.Products.Add(product);
             }
-
+            var customers = new CustomerDTO[]
+            {
+                new CustomerDTO { CustomerID =1, MobileNumber = "7796351532", Email="abc@gmail.com", Name="Namrata Rawool", PendingAmount = 0, TotalAmount = 0 },
+                new CustomerDTO { MobileNumber = "8963457812", Email="def@gmail.com", Name="Aditya Bhende", PendingAmount = 0, TotalAmount = 0 }
+            };
+            foreach (var customer in customers)
+            {
+                context.Customers.Add(customer);
+            }
             var transactions = new TransactionDTO[]
             {
-                new TransactionDTO { TransactionID = 1, TotalPrice = 220, ProductIDs = "1,2", ProductQuantity="1,1", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )},
-                new TransactionDTO { TransactionID = 2, TotalPrice = 220, ProductIDs = "2,3", ProductQuantity="1,1",  TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )}
+                new TransactionDTO { TransactionID = 1, CustomerID = 1, TotalPrice = 220, ProductIDs = "1,2", ProductQuantity="1,1", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )},
+                new TransactionDTO { TransactionID = 2, CustomerID = 2, TotalPrice = 220, ProductIDs = "2,3", ProductQuantity="1,1",  TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )}
             };
 
             foreach (var transaction in transactions)

@@ -6,49 +6,50 @@ using System.Text;
 
 namespace InventoryManagement.Common.Models.Base
 {
-    public class TransactionBase
+    public class CustomerBase
     {
         [Key]
-        [JsonProperty]
-        public int TransactionID
-        {
-            get;
-            set;
-        }
-        [Required]
-        [JsonProperty]
-        public int TotalPrice
-        {
-            get;
-            set;
-        }
-        [Required]
-        [JsonProperty]
-        public string ProductIDs
-        {
-            get;
-            set;
-        }
-        [Required]
-        [JsonProperty]
-        public string ProductQuantity
-        {
-            get;
-            set;
-        }
-        [Required]
-        [JsonProperty]
-        public DateTime TransactionDateTime
-        {
-            get;
-            set;
-        }
-        [Required]
         [JsonProperty]
         public int CustomerID
         {
             get;
             set;
         }
+        [Required]
+        [JsonProperty]
+        public string Name
+        {
+            get;
+            set;
+        }
+        [Required]
+        [JsonProperty]
+        public string MobileNumber
+        {
+            get;
+            set;
+        }
+        [Required]
+        [JsonProperty]
+        public string Email
+        {
+            get;
+            set;
+        }
+        [Required]
+        [JsonProperty]
+        public int TotalAmount
+        {
+            get;
+            set;
+        }
+        [Required]
+        [JsonProperty]
+        public int PendingAmount
+        {
+            get;
+            set;
+        }
+
     }
 }

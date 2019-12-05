@@ -19,5 +19,12 @@ namespace InventoryManagement.Common.Models.DTO
             ProductQuantity = transactionIn.ProductQuantity;
             TransactionDateTime = transactionIn.TransactionDateTime;
         }
+        
+        //Navigation Property
+        public CustomerDTO Customer
+        {
+            get;
+            set;
+        }
     }
 }

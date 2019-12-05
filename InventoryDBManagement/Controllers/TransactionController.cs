@@ -50,6 +50,7 @@ namespace InventoryDBManagement.Controllers
             try
             {
                 var transactionDto = _context.Transactions
+                .Include(t => t.Customer)
                 .AsNoTracking()
                 .FirstOrDefault(t => t.TransactionID == id);
 
@@ -122,6 +123,8 @@ namespace InventoryDBManagement.Controllers
                 TransactionDTO transactionDTO = new TransactionDTO(transactionIn);
                 _context.Transactions.Add(transactionDTO);
                 await _context.SaveChangesAsync();
+
+                //TODO: Customer amount update
 
                 return await GetTransaction(transactionDTO.TransactionID);
             }
