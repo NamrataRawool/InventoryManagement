@@ -38,7 +38,7 @@ namespace InventoryManagement.Common.Models.DTO
         }
 
         //Navigation Property
-        public Category Category
+        public CategoryDTO Category
         {
             get;
             set;

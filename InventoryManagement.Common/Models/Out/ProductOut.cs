@@ -29,7 +29,14 @@ namespace InventoryManagement.Common.Models.Out
         }
         [Required]
         [JsonProperty]
-        public Category Category
+        public int Quantity
+        {
+            get;
+            set;
+        }
+        [Required]
+        [JsonProperty]
+        public CategoryDTO Category
         {
             get;
             set;

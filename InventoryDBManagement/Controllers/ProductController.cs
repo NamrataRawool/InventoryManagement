@@ -9,11 +9,11 @@ using InventoryDBManagement.DAL;
 using InventoryManagement.Common.Models;
 using System.IO;
 using Microsoft.Extensions.Options;
-using InventoryManagement.Common.Utils;
 using InventoryDBManagement.Configuration.Options;
 using InventoryManagement.Common.Models.DTO;
 using InventoryManagement.Common.Models.In;
 using InventoryManagement.Common.Models.Out;
+using Microsoft.AspNetCore.Hosting;
 
 namespace InventoryDBManagement.Controllers
 {
@@ -21,15 +21,15 @@ namespace InventoryDBManagement.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly InventoryDBContext _context;
-        private readonly IMediaSaver _mediaSaver;
         private readonly SharedMediaConfigOptions _sharedMediaOptions;
-
-        public ProductController(InventoryDBContext context, IOptions<SharedMediaConfigOptions> sharedMediaOptions, IMediaSaver mediaSaver)
+        private const string api = "";
+        public ProductController(IHostingEnvironment hostingEnvironment, InventoryDBContext context, IOptions<SharedMediaConfigOptions> sharedMediaOptions)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
             _sharedMediaOptions = sharedMediaOptions.Value;
-            _mediaSaver = mediaSaver;
         }
 
         // GET: api/Products
@@ -40,6 +40,7 @@ namespace InventoryDBManagement.Controllers
                 .Include(p => p.Category)
                 .AsNoTracking().
                 ToListAsync();
+
             List<ProductOut> products = new List<ProductOut>();
             foreach (var product in productDtos)
             {
@@ -97,6 +98,30 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
+        [HttpPost("upload-file")]
+        public async Task<IActionResult> Index(List<IFormFile> files)
+        {
+
+            long size = files.Sum(f => f.Length);
+
+            string pathsToSave = String.Empty;
+            foreach (var image in files)
+            {
+                if (image.Length > 0)
+                {
+                    var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, "4", image.FileName);
+                    var finalPath = Path.Combine(_hostingEnvironment.WebRootPath, relativeDestPath);
+                    image.CopyTo(new FileStream(finalPath, FileMode.OpenOrCreate));
+                    pathsToSave += relativeDestPath + ",";
+                }
+            }
+
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return Ok(new { count = files.Count, size, pathsToSave });
+
+        }
         // POST: api/Product
         [HttpPost]
         public async Task<ActionResult<ProductOut>> PostProduct(ProductIn productIn)
@@ -109,17 +134,24 @@ namespace InventoryDBManagement.Controllers
 
                 productDTO = CreatedAtAction("GetProduct", new { id = productDTO.ProductID }, productDTO).Value as ProductDTO;
 
-                var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ProductID.ToString(), productIn.ImageName);
+                //// Save image with IformFile
+                //string pathsToSave = String.Empty;
+                //foreach (var image in productIn.Images)
+                //{
+                //    if (image.Length > 0)
+                //    {
+                //        var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ProductID.ToString(), image.FileName);
+                //        var finalPath = Path.Combine(_hostingEnvironment.WebRootPath, relativeDestPath);
+                //        image.CopyTo(new FileStream(finalPath, FileMode.Create));
+                //        pathsToSave += relativeDestPath + ",";
+                //    }
+                //}
 
-                //Temporary TODO: Need to pass byte array received from user
-                byte[] image = System.IO.File.ReadAllBytes("D:\\Test.jpg");
-
-                bool success = _mediaSaver.SaveImage(image, relativeDestPath);
-                if (success)
-                {
-                    productDTO.ImagePath = relativeDestPath;
-                    await PutProduct(productDTO.ProductID, productDTO);
-                }
+                //Update 
+                //temporary  
+                var destPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ProductID.ToString(), productIn.ImageName);
+                productDTO.ImagePath = destPath;
+                await PutProduct(productDTO.ProductID, productDTO);
                 ProductOut productOut = new ProductOut(productDTO);
                 return productOut;
             }

@@ -1,4 +1,5 @@
 ﻿using InventoryManagement.Common.Models.Base;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,8 @@ namespace InventoryManagement.Common.Models.In
             get;
             set;
         }
-        
         [JsonProperty]
-        public byte[] Image
+        public List<IFormFile> Images
         {
             get;
             set;

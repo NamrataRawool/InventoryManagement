@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InventoryDBManagement.DAL;
 using InventoryManagement.Common.Models;
+using InventoryManagement.Common.Models.Out;
+using InventoryManagement.Common.Models.In;
+using InventoryManagement.Common.Models.DTO;
 
 namespace InventoryDBManagement.Controllers
 {
@@ -23,16 +26,23 @@ namespace InventoryDBManagement.Controllers
 
         // GET: api/Categories
         [HttpGet("/Categories")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<CategoryOut>>> GetCategories()
         {
-            return await _context.Categories
+            var categoriesDto = await _context.Categories
                 .AsNoTracking()
                 .ToListAsync();
+            List<CategoryOut> categories = new List<CategoryOut>();
+            foreach (var category in categoriesDto)
+            {
+                var categoryOut = new CategoryOut(category);
+                categories.Add(categoryOut);
+            }
+            return categories;
         }
 
         // GET: api/Category/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<ActionResult<CategoryOut>> GetCategory(int id)
         {
             var category = await _context.Categories
                 .AsNoTracking()
@@ -43,19 +53,19 @@ namespace InventoryDBManagement.Controllers
                 return NotFound();
             }
 
-            return category;
+            return new CategoryOut(category);
         }
 
         // PUT: api/Category/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Category category)
+        public async Task<IActionResult> PutCategory(int id, CategoryDTO categoryDto)
         {
-            if (id != category.CategoryID)
+            if (id != categoryDto.CategoryID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(category).State = EntityState.Modified;
+            _context.Entry(categoryDto).State = EntityState.Modified;
 
             try
             {
@@ -78,14 +88,15 @@ namespace InventoryDBManagement.Controllers
 
         // POST: api/Category
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<CategoryOut>> PostCategory(CategoryIn categoryIn)
         {
             try
             {
-                _context.Categories.Add(category);
+                CategoryDTO categoryDTO = new CategoryDTO(categoryIn);
+                _context.Categories.Add(categoryDTO);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetCategory", new { id = category.CategoryID }, category);
+                return CreatedAtAction("GetCategory", new { id = categoryDTO.CategoryID }, categoryDTO);
             }
             catch (Exception ex)
             {
@@ -93,22 +104,6 @@ namespace InventoryDBManagement.Controllers
                 throw;
             }
 
-        }
-
-        // DELETE: api/Category/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Category>> DeleteCategory(int id)
-        {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
-
-            return category;
         }
 
         private bool CategoryExists(int id)

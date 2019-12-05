@@ -4,66 +4,44 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace InventoryManagement.Common.Models
+namespace InventoryManagement.Common.Models.Base
 {
-    public class Category
+    public class TransactionBase
     {
         [Key]
         [JsonProperty]
-        public int CategoryID
-        {
-            get;
-            set;
-        }
-
-        //[JsonProperty]
-        //public int TaxID
-        //{
-        //    get;
-        //    set;
-        //}
-
-        [Required]
-        [JsonProperty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        [JsonProperty]
-        public string Description
+        public int TransactionID
         {
             get;
             set;
         }
         [Required]
         [JsonProperty]
-        public int Discount
+        public int TotalPrice
         {
             get;
             set;
         }
         [Required]
         [JsonProperty]
-        public int CGST
+        public string ProductIDs
         {
             get;
             set;
         }
-
         [Required]
         [JsonProperty]
-        public int SGST
+        public string ProductQuantity
         {
             get;
             set;
         }
-        ////Navigation Property
-        //public Tax Tax
-        //{
-        //    get;
-        //    set;
-        //}
+        [Required]
+        [JsonProperty]
+        public DateTime TransactionDateTime
+        {
+            get;
+            set;
+        }
     }
 }

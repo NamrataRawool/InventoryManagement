@@ -54,10 +54,10 @@ namespace InventoryDBManagement
             //    context.Taxes.Add(tax);
             //}
 
-            var categories = new Category[]
+            var categories = new CategoryDTO[]
             {
-                 new Category{CategoryID = 1, Description = "Init1", Discount = 10, Name = "Category1", CGST = 10, SGST = 10},
-                 new Category{CategoryID = 2, Description = "Init2", Discount = 10, Name = "Category2", CGST = 20, SGST = 20}
+                 new CategoryDTO{CategoryID = 1, Description = "Init1", Discount = 10, Name = "Category1", CGST = 10, SGST = 10},
+                 new CategoryDTO{CategoryID = 2, Description = "Init2", Discount = 10, Name = "Category2", CGST = 20, SGST = 20}
             };
 
             foreach (var category in categories)
@@ -80,10 +80,10 @@ namespace InventoryDBManagement
                 context.Products.Add(product);
             }
 
-            var transactions = new Transaction[]
+            var transactions = new TransactionDTO[]
             {
-                new Transaction { TransactionID = 1, TotalPrice = 220, ProductIDs = "1,2", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )},
-                new Transaction { TransactionID = 2, TotalPrice = 220, ProductIDs = "2,3", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )}
+                new TransactionDTO { TransactionID = 1, TotalPrice = 220, ProductIDs = "1,2", ProductQuantity="1,1", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )},
+                new TransactionDTO { TransactionID = 2, TotalPrice = 220, ProductIDs = "2,3", ProductQuantity="1,1",  TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )}
             };
 
             foreach (var transaction in transactions)

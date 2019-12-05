@@ -1,45 +1,53 @@
-﻿using InventoryManagement.Common.Models.Out;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace InventoryManagement.Common.Models
+namespace InventoryManagement.Common.Models.Base
 {
-    public class Transaction
+    public class CategoryBase
     {
         [Key]
         [JsonProperty]
-        public int TransactionID
+        public int CategoryID
+        {
+            get;
+            set;
+        }
+
+        [Required]
+        [JsonProperty]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty]
+        public string Description
         {
             get;
             set;
         }
         [Required]
         [JsonProperty]
-        public int TotalPrice
+        public int Discount
         {
             get;
             set;
         }
         [Required]
         [JsonProperty]
-        public string ProductIDs
+        public int CGST
         {
             get;
             set;
         }
+
         [Required]
         [JsonProperty]
-        public DateTime TransactionDateTime
-        {
-            get;
-            set;
-        }
-        [NotMapped]
-        public List<ProductOut> ProductDetails
+        public int SGST
         {
             get;
             set;

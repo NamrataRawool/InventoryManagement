@@ -12,10 +12,8 @@ namespace InventoryDBManagement.DAL
     public class InventoryDBContext : DbContext
     {
         public DbSet<ProductDTO> Products { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        //public DbSet<Tax> Taxes { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        // public DbSet<ProductTransaction> ProductTransactions { get; set; }
+        public DbSet<CategoryDTO> Categories { get; set; }
+        public DbSet<TransactionDTO> Transactions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,8 +35,8 @@ namespace InventoryDBManagement.DAL
                 entity.Property(e => e.ProductID).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<Category>().ToTable("Categories");
-            modelBuilder.Entity<Category>(entity =>
+            modelBuilder.Entity<CategoryDTO>().ToTable("Categories");
+            modelBuilder.Entity<CategoryDTO>(entity =>
             {
                 entity.HasKey(e => e.CategoryID);
                 entity.Property(e => e.CategoryID).ValueGeneratedOnAdd();
@@ -53,8 +51,8 @@ namespace InventoryDBManagement.DAL
             //});
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Transaction>().ToTable("Transactions");
-            modelBuilder.Entity<Transaction>(entity =>
+            modelBuilder.Entity<TransactionDTO>().ToTable("Transactions");
+            modelBuilder.Entity<TransactionDTO>(entity =>
             {
                 entity.HasKey(e => e.TransactionID);
                 entity.Property(e => e.TransactionID).ValueGeneratedOnAdd();

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using InventoryDBManagement.Configuration.Options;
 using InventoryDBManagement.DAL;
-using InventoryManagement.Common.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,8 +34,6 @@ namespace InventoryDBManagement
                 .AddDbContext<InventoryDBContext>();
 
             services.Configure<SharedMediaConfigOptions>(Configuration.GetSection("SharedMediaConfigOptions"));
-            services.AddSingleton<IMediaSaver, MediaSaver>();
-
         }
      
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
