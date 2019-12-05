@@ -23,13 +23,6 @@ namespace InventoryManagement.Common.Models.In
             get;
             set;
         }
-        [Required]
-        [JsonProperty]
-        public string ImageName
-        {
-            get;
-            set;
 
-        }
     }
 }

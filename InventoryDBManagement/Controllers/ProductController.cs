@@ -124,7 +124,7 @@ namespace InventoryDBManagement.Controllers
         }
         // POST: api/Product
         [HttpPost]
-        public async Task<ActionResult<ProductOut>> PostProduct(ProductIn productIn)
+        public async Task<ActionResult<ProductOut>> PostProduct([FromForm]ProductIn productIn)
         {
             try
             {
@@ -135,28 +135,31 @@ namespace InventoryDBManagement.Controllers
                 productDTO = CreatedAtAction("GetProduct", new { id = productDTO.ProductID }, productDTO).Value as ProductDTO;
 
                 //// Save image with IformFile
-                //string pathsToSave = String.Empty;
-                //foreach (var image in productIn.Images)
-                //{
-                //    if (image.Length > 0)
-                //    {
-                //        var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ProductID.ToString(), image.FileName);
-                //        var finalPath = Path.Combine(_hostingEnvironment.WebRootPath, relativeDestPath);
-                //        image.CopyTo(new FileStream(finalPath, FileMode.Create));
-                //        pathsToSave += relativeDestPath + ",";
-                //    }
-                //}
+                string pathToSave = String.Empty;
+                foreach (var image in productIn.Images)
+                {
+                    if (image.Length > 0)
+                    {
+                        string FolderPath = Path.Combine(_hostingEnvironment.WebRootPath, _sharedMediaOptions.Products, productDTO.ProductID.ToString());
+                        if (!Directory.Exists(FolderPath))
+                            Directory.CreateDirectory(FolderPath);
 
-                //Update 
-                //temporary  
-                var destPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ProductID.ToString(), productIn.ImageName);
-                productDTO.ImagePath = destPath;
+                        var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ProductID.ToString(), image.FileName);
+                        var finalPath = Path.Combine(FolderPath, image.FileName);
+                        image.CopyTo(new FileStream(finalPath, FileMode.Create));
+                        pathToSave += relativeDestPath + ",";
+                    }
+                }
+
+                productDTO.ImagePath = pathToSave;
+                
                 await PutProduct(productDTO.ProductID, productDTO);
                 ProductOut productOut = new ProductOut(productDTO);
                 return productOut;
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 throw;
             }
 

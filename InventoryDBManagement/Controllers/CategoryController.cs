@@ -100,7 +100,7 @@ namespace InventoryDBManagement.Controllers
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.ToString());
                 throw;
             }
 
