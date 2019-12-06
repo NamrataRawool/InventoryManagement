@@ -46,7 +46,7 @@ namespace InventoryDBManagement.Controllers
         {
             var category = await _context.Categories
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.CategoryID == id);
+                .FirstOrDefaultAsync(c => c.ID == id);
 
             if (category == null)
             {
@@ -60,7 +60,7 @@ namespace InventoryDBManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, CategoryDTO categoryDto)
         {
-            if (id != categoryDto.CategoryID)
+            if (id != categoryDto.ID)
             {
                 return BadRequest();
             }
@@ -96,7 +96,7 @@ namespace InventoryDBManagement.Controllers
                 _context.Categories.Add(categoryDTO);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetCategory", new { id = categoryDTO.CategoryID }, categoryDTO);
+                return CreatedAtAction("GetCategory", new { id = categoryDTO.ID }, categoryDTO);
             }
             catch (Exception ex)
             {
@@ -108,7 +108,7 @@ namespace InventoryDBManagement.Controllers
 
         private bool CategoryExists(int id)
         {
-            return _context.Categories.Any(e => e.CategoryID == id);
+            return _context.Categories.Any(e => e.ID == id);
         }
     }
 }

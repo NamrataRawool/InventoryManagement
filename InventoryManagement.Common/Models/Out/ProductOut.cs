@@ -12,7 +12,7 @@ namespace InventoryManagement.Common.Models.Out
     {
         public ProductOut(ProductDTO productDto)
         {
-            ProductID = productDto.ProductID;
+            ID = productDto.ID;
             Name = productDto.Name;
             Description = productDto.Description;
             RetailPrice = productDto.RetailPrice;

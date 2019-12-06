@@ -28,7 +28,7 @@ namespace InventoryDBManagement
                     using (var db = new InventoryDBContext())
                     {
                         db.Database.EnsureCreated();
-                       // DBinitializer(db);
+                        // DBinitializer(db);
                     }
                 }
                 catch (Exception ex)
@@ -56,8 +56,8 @@ namespace InventoryDBManagement
 
             var categories = new CategoryDTO[]
             {
-                 new CategoryDTO{CategoryID = 1, Description = "Init1", Discount = 10, Name = "Category1", CGST = 10, SGST = 10},
-                 new CategoryDTO{CategoryID = 2, Description = "Init2", Discount = 10, Name = "Category2", CGST = 20, SGST = 20}
+                 new CategoryDTO{ID = 1, Description = "Init1", Discount = 10, Name = "Category1", CGST = 10, SGST = 10},
+                 new CategoryDTO{ID = 2, Description = "Init2", Discount = 10, Name = "Category2", CGST = 20, SGST = 20}
             };
 
             foreach (var category in categories)
@@ -67,11 +67,11 @@ namespace InventoryDBManagement
 
             var products = new ProductDTO[]
             {
-                new ProductDTO{ProductID = 1, Name = "Product1", Description="Init1", RetailPrice = 120, WholeSalePrice = 130,
+                new ProductDTO{ID = 1, Name = "Product1", Description="Init1", RetailPrice = 120, WholeSalePrice = 130,
                            ImagePath="testpath1.jpg", CategoryID = 1},
-                 new ProductDTO{ProductID = 2, Name = "Product2", Description="Init2", RetailPrice = 140, WholeSalePrice = 160,
+                 new ProductDTO{ID = 2, Name = "Product2", Description="Init2", RetailPrice = 140, WholeSalePrice = 160,
                            ImagePath="testpath2.jpg", CategoryID = 2},
-                  new ProductDTO{ProductID = 3, Name = "Product3", Description="Init3", RetailPrice = 140, WholeSalePrice = 160,
+                  new ProductDTO{ID = 3, Name = "Product3", Description="Init3", RetailPrice = 140, WholeSalePrice = 160,
                            ImagePath="testpath3.jpg", CategoryID = 2}
             };
 
@@ -83,9 +83,9 @@ namespace InventoryDBManagement
 
             var stocks = new StockDTO[]
             {
-                new StockDTO { StockID=1, ProductID =1, AvailableQuantity=12, TotalQuantity=100},
-                new StockDTO { StockID=2, ProductID =2, AvailableQuantity=56, TotalQuantity=90},
-                new StockDTO { StockID=3, ProductID =3, AvailableQuantity=33, TotalQuantity=150}
+                new StockDTO { ID=1, ProductID =1, AvailableQuantity=12, TotalQuantity=100},
+                new StockDTO { ID=2, ProductID =2, AvailableQuantity=56, TotalQuantity=90},
+                new StockDTO { ID=3, ProductID =3, AvailableQuantity=33, TotalQuantity=150}
             };
             foreach (var stock in stocks)
             {
@@ -95,8 +95,8 @@ namespace InventoryDBManagement
 
             var customers = new CustomerDTO[]
             {
-                new CustomerDTO { CustomerID =1, MobileNumber = "7796351532", Email="abc@gmail.com", Name="Namrata Rawool", PendingAmount = 0, TotalAmount = 0 },
-                new CustomerDTO {CustomerID =2, MobileNumber = "8963457812", Email="def@gmail.com", Name="Aditya Bhende", PendingAmount = 0, TotalAmount = 0 }
+                new CustomerDTO { ID =1, MobileNumber = "7796351532", Email="abc@gmail.com", Name="Namrata Rawool", PendingAmount = 0, TotalAmount = 0 },
+                new CustomerDTO {ID =2, MobileNumber = "8963457812", Email="def@gmail.com", Name="Aditya Bhende", PendingAmount = 0, TotalAmount = 0 }
             };
             foreach (var customer in customers)
             {
@@ -104,8 +104,8 @@ namespace InventoryDBManagement
             }
             var transactions = new TransactionDTO[]
             {
-                new TransactionDTO { TransactionID = 1, CustomerID = 1, TotalPrice = 220, ProductIDs = "1,2", ProductQuantity="1,1", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )},
-                new TransactionDTO { TransactionID = 2, CustomerID = 2, TotalPrice = 220, ProductIDs = "2,3", ProductQuantity="1,1",  TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )}
+                new TransactionDTO { ID = 1, CustomerID = 1, TotalPrice = 220, ProductIDs = "1,2", ProductQuantity="1,1", TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )},
+                new TransactionDTO { ID = 2, CustomerID = 2, TotalPrice = 220, ProductIDs = "2,3", ProductQuantity="1,1",  TransactionDateTime = DateTime.Parse(DateTime.Now.ToString() )}
             };
 
             foreach (var transaction in transactions)

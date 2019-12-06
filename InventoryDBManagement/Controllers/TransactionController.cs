@@ -37,7 +37,9 @@ namespace InventoryDBManagement.Controllers
 
             foreach (var transaction in transactions)
             {
-                var trans = await GetTransaction(transaction.TransactionID);
+                var trans = await GetTransaction(transaction.ID);
+                if (trans == null)
+                    continue;
                 transactionList.Add(trans.Value);
             }
             return transactionList;
@@ -52,7 +54,7 @@ namespace InventoryDBManagement.Controllers
                 var transactionDto = _context.Transactions
                 .Include(t => t.Customer)
                 .AsNoTracking()
-                .FirstOrDefault(t => t.TransactionID == id);
+                .FirstOrDefault(t => t.ID == id);
 
                 if (transactionDto == null)
                 {
@@ -66,9 +68,9 @@ namespace InventoryDBManagement.Controllers
                 foreach (var productId in productIDs)
                 {
                     var product = await _productsController.GetProduct(Convert.ToInt32(productId.Trim()));
-                    product.Value.Quantity = Convert.ToInt32(productQuantity[i]);
                     if (product == null)
                         continue;
+                    product.Value.Quantity = Convert.ToInt32(productQuantity[i].Trim());
                     prodList.Add(product.Value);
                     i++;
                 }
@@ -77,7 +79,7 @@ namespace InventoryDBManagement.Controllers
 
                 return transactionOut;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -88,7 +90,7 @@ namespace InventoryDBManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTransaction(int id, TransactionDTO transactionDto)
         {
-            if (id != transactionDto.TransactionID)
+            if (id != transactionDto.ID)
             {
                 return BadRequest();
             }
@@ -126,7 +128,7 @@ namespace InventoryDBManagement.Controllers
 
                 //TODO: Customer amount update
 
-                return await GetTransaction(transactionDTO.TransactionID);
+                return await GetTransaction(transactionDTO.ID);
             }
             catch (Exception ex)
             {
@@ -156,7 +158,7 @@ namespace InventoryDBManagement.Controllers
 
                 foreach (var transaction in transactions)
                 {
-                    var trans = await GetTransaction(transaction.TransactionID);
+                    var trans = await GetTransaction(transaction.ID);
                     transactionList.Add(trans.Value);
                 }
                 return transactionList;
@@ -170,7 +172,7 @@ namespace InventoryDBManagement.Controllers
 
         private bool TransactionExists(int id)
         {
-            return _context.Transactions.Any(e => e.TransactionID == id);
+            return _context.Transactions.Any(e => e.ID == id);
         }
     }
 }

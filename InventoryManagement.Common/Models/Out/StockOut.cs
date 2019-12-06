@@ -10,7 +10,7 @@ namespace InventoryManagement.Common.Models.Out
     {
         public StockOut(StockDTO stockDTO)
         {
-            StockID = stockDTO.StockID;
+            ID = stockDTO.ID;
             ProductID = stockDTO.ProductID;
             TotalQuantity = stockDTO.TotalQuantity;
             AvailableQuantity = stockDTO.AvailableQuantity;

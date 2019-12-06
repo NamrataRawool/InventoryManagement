@@ -49,7 +49,7 @@ namespace InventoryDBManagement.Controllers
             var stockDTO = await _context.Stocks
                 .Include(s => s.Product)
                 .AsNoTracking()
-                .FirstAsync(s => s.StockID == id);
+                .FirstAsync(s => s.ID == id);
 
             if (stockDTO == null)
             {
@@ -63,7 +63,7 @@ namespace InventoryDBManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStock(int id, StockDTO stockDTO)
         {
-            if (id != stockDTO.StockID)
+            if (id != stockDTO.ID)
             {
                 return BadRequest();
             }
@@ -97,13 +97,13 @@ namespace InventoryDBManagement.Controllers
             _context.Stocks.Add(stockDto);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStock", new { id = stockDto.StockID }, stockDto);
+            return CreatedAtAction("GetStock", new { id = stockDto.ID }, stockDto);
         }
 
 
         private bool StockExists(int id)
         {
-            return _context.Stocks.Any(e => e.StockID == id);
+            return _context.Stocks.Any(e => e.ID == id);
         }
     }
 }

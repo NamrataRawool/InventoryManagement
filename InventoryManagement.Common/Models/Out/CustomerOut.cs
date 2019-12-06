@@ -10,7 +10,7 @@ namespace InventoryManagement.Common.Models.Out
     {
         public CustomerOut(CustomerDTO customerDTO)
         {
-            CustomerID = customerDTO.CustomerID;
+            ID = customerDTO.ID;
             Name = customerDTO.Name;
             Email = customerDTO.Email;
             MobileNumber = customerDTO.MobileNumber;

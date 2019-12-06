@@ -57,7 +57,7 @@ namespace InventoryDBManagement.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .AsNoTracking().
-                FirstOrDefaultAsync(p => p.ProductID == id);
+                FirstOrDefaultAsync(p => p.ID == id);
 
 
             if (product == null)
@@ -72,7 +72,7 @@ namespace InventoryDBManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, ProductDTO productDto)
         {
-            if (id != productDto.ProductID)
+            if (id != productDto.ID)
             {
                 return BadRequest();
             }
@@ -108,7 +108,7 @@ namespace InventoryDBManagement.Controllers
                 _context.Products.Add(productDTO);
                 await _context.SaveChangesAsync();
 
-                productDTO = CreatedAtAction("GetProduct", new { id = productDTO.ProductID }, productDTO).Value as ProductDTO;
+                productDTO = CreatedAtAction("GetProduct", new { id = productDTO.ID }, productDTO).Value as ProductDTO;
 
                 //// Save image with IformFile
                 string pathToSave = String.Empty;
@@ -116,11 +116,11 @@ namespace InventoryDBManagement.Controllers
                 {
                     if (image.Length > 0)
                     {
-                        string FolderPath = Path.Combine(_hostingEnvironment.WebRootPath, _sharedMediaOptions.Products, productDTO.ProductID.ToString());
+                        string FolderPath = Path.Combine(_hostingEnvironment.WebRootPath, _sharedMediaOptions.Products, productDTO.ID.ToString());
                         if (!Directory.Exists(FolderPath))
                             Directory.CreateDirectory(FolderPath);
 
-                        var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ProductID.ToString(), image.FileName);
+                        var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ID.ToString(), image.FileName);
                         var finalPath = Path.Combine(FolderPath, image.FileName);
                         image.CopyTo(new FileStream(finalPath, FileMode.Create));
                         pathToSave += relativeDestPath + ",";
@@ -129,7 +129,7 @@ namespace InventoryDBManagement.Controllers
 
                 productDTO.ImagePath = pathToSave;
                 
-                await PutProduct(productDTO.ProductID, productDTO);
+                await PutProduct(productDTO.ID, productDTO);
                 ProductOut productOut = new ProductOut(productDTO);
                 return productOut;
             }
@@ -197,7 +197,7 @@ namespace InventoryDBManagement.Controllers
         #region Private Methods
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.ProductID == id);
+            return _context.Products.Any(e => e.ID == id);
         }
         #endregion
     }

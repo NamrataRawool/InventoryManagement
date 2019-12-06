@@ -11,7 +11,7 @@ namespace InventoryManagement.Common.Models.Out
     {
         public TransactionOut(TransactionDTO transactionDTO)
         {
-            TransactionID = transactionDTO.TransactionID;
+            ID = transactionDTO.ID;
             TotalPrice = transactionDTO.TotalPrice;
             ProductIDs = transactionDTO.ProductIDs;
             ProductQuantity = transactionDTO.ProductQuantity;

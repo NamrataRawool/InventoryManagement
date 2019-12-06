@@ -46,7 +46,7 @@ namespace InventoryDBManagement.Controllers
         {
             var customer = await _context.Customers
                         .AsNoTracking()
-                        .FirstAsync(c => c.CustomerID == id);
+                        .FirstAsync(c => c.ID == id);
             if (customer == null)
             {
                 return NotFound();
@@ -59,7 +59,7 @@ namespace InventoryDBManagement.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, CustomerDTO customerDTO)
         {
-            if (id != customerDTO.CustomerID)
+            if (id != customerDTO.ID)
             {
                 return BadRequest();
             }
@@ -93,12 +93,12 @@ namespace InventoryDBManagement.Controllers
             _context.Customers.Add(customerDto);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customerDto.CustomerID }, customerDto);
+            return CreatedAtAction("GetCustomer", new { id = customerDto.ID }, customerDto);
         }
 
         private bool CustomerExists(int id)
         {
-            return _context.Customers.Any(e => e.CustomerID == id);
+            return _context.Customers.Any(e => e.ID == id);
         }
     }
 }

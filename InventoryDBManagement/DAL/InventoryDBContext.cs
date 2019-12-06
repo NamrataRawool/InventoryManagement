@@ -32,15 +32,15 @@ namespace InventoryDBManagement.DAL
             modelBuilder.Entity<ProductDTO>().ToTable("Products");
             modelBuilder.Entity<ProductDTO>(entity =>
             {
-                entity.HasKey(e => e.ProductID);
-                entity.Property(e => e.ProductID).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<CategoryDTO>().ToTable("Categories");
             modelBuilder.Entity<CategoryDTO>(entity =>
             {
-                entity.HasKey(e => e.CategoryID);
-                entity.Property(e => e.CategoryID).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID).ValueGeneratedOnAdd();
             });
             base.OnModelCreating(modelBuilder);
 
@@ -55,23 +55,23 @@ namespace InventoryDBManagement.DAL
             modelBuilder.Entity<TransactionDTO>().ToTable("Transactions");
             modelBuilder.Entity<TransactionDTO>(entity =>
             {
-                entity.HasKey(e => e.TransactionID);
-                entity.Property(e => e.TransactionID).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<CustomerDTO>().ToTable("Customers");
             modelBuilder.Entity<CustomerDTO>(entity =>
             {
-                entity.HasKey(e => e.CustomerID);
-                entity.Property(e => e.CustomerID).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID).ValueGeneratedOnAdd();
             });
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<StockDTO>().ToTable("Stocks");
             modelBuilder.Entity<StockDTO>(entity =>
             {
-                entity.HasKey(e => e.StockID);
-                entity.Property(e => e.StockID).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID).ValueGeneratedOnAdd();
             });
             base.OnModelCreating(modelBuilder);
         }

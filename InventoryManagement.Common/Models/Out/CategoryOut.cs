@@ -11,7 +11,7 @@ namespace InventoryManagement.Common.Models.Out
     {
         public CategoryOut(CategoryDTO categoryDTO)
         {
-            CategoryID = categoryDTO.CategoryID;
+            ID = categoryDTO.ID;
             Name = categoryDTO.Name;
             Description = categoryDTO.Description;
             Discount = categoryDTO.Discount;

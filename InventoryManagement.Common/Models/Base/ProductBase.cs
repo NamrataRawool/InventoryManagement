@@ -10,7 +10,7 @@ namespace InventoryManagement.Common.Models.Base
     {
         [Key]
         [JsonProperty]
-        public int ProductID
+        public int ID
         {
             get;
             set;
