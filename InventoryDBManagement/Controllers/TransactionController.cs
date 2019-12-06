@@ -135,6 +135,39 @@ namespace InventoryDBManagement.Controllers
             }
 
         }
+        // GET: api/Transactions
+        [HttpGet("")]
+        public async Task<ActionResult<List<TransactionOut>>> SearchTransactions(string from, string to)
+        {
+            try
+            {
+                var fromDate = DateTime.Parse(from);
+                var toDate = DateTime.Parse(to);
+                List<TransactionDTO> transactions = null;
+
+                transactions = await _context.Transactions
+                    .Where(t => t.TransactionDateTime.Date >= fromDate.Date && t.TransactionDateTime.Date <= toDate.Date)
+                    .ToListAsync();
+
+                if (transactions == null)
+                    return NotFound();
+
+                List<TransactionOut> transactionList = new List<TransactionOut>();
+
+                foreach (var transaction in transactions)
+                {
+                    var trans = await GetTransaction(transaction.TransactionID);
+                    transactionList.Add(trans.Value);
+                }
+                return transactionList;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
         private bool TransactionExists(int id)
         {
             return _context.Transactions.Any(e => e.TransactionID == id);

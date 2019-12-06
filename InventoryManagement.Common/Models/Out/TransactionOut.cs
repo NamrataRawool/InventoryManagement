@@ -16,6 +16,7 @@ namespace InventoryManagement.Common.Models.Out
             ProductIDs = transactionDTO.ProductIDs;
             ProductQuantity = transactionDTO.ProductQuantity;
             TransactionDateTime = transactionDTO.TransactionDateTime;
+            CustomerID = transactionDTO.CustomerID;
             Customer = transactionDTO.Customer;
         }
         [JsonProperty]

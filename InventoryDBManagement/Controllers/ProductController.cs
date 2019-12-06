@@ -98,30 +98,6 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        [HttpPost("upload-file")]
-        public async Task<IActionResult> Index(List<IFormFile> files)
-        {
-
-            long size = files.Sum(f => f.Length);
-
-            string pathsToSave = String.Empty;
-            foreach (var image in files)
-            {
-                if (image.Length > 0)
-                {
-                    var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, "4", image.FileName);
-                    var finalPath = Path.Combine(_hostingEnvironment.WebRootPath, relativeDestPath);
-                    image.CopyTo(new FileStream(finalPath, FileMode.OpenOrCreate));
-                    pathsToSave += relativeDestPath + ",";
-                }
-            }
-
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-
-            return Ok(new { count = files.Count, size, pathsToSave });
-
-        }
         // POST: api/Product
         [HttpPost]
         public async Task<ActionResult<ProductOut>> PostProduct([FromForm]ProductIn productIn)
@@ -163,6 +139,27 @@ namespace InventoryDBManagement.Controllers
                 throw;
             }
 
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductOut>>> SearchProducts(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+                return BadRequest();
+
+            var productDtos = await _context.Products
+            .Include(p => p.Category)
+            .AsNoTracking()
+            .Where(p => p.Name.Contains(name))
+            .ToListAsync();
+
+            List<ProductOut> products = new List<ProductOut>();
+            foreach (var product in productDtos)
+            {
+                var productOut = new ProductOut(product);
+                products.Add(productOut);
+            }
+            return products;
         }
 
         // DELETE: api/Product/5
