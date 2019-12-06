@@ -24,7 +24,7 @@ namespace InventoryDBManagement.Controllers
             _context = context;
         }
 
-        // GET: api/Categories
+        // GET: /Categories
         [HttpGet("/Categories")]
         public async Task<ActionResult<IEnumerable<CategoryOut>>> GetCategories()
         {
@@ -40,8 +40,8 @@ namespace InventoryDBManagement.Controllers
             return categories;
         }
 
-        // GET: api/Category/5
-        [HttpGet("{id}")]
+        // GET: /Category/5
+        [HttpGet("/Catgory/{id}")]
         public async Task<ActionResult<CategoryOut>> GetCategory(int id)
         {
             var category = await _context.Categories
@@ -56,8 +56,8 @@ namespace InventoryDBManagement.Controllers
             return new CategoryOut(category);
         }
 
-        // PUT: api/Category/5
-        [HttpPut("{id}")]
+        // PUT: /Category/5
+        [HttpPut("/Catgory/{id}")]
         public async Task<IActionResult> PutCategory(int id, CategoryDTO categoryDto)
         {
             if (id != categoryDto.ID)
@@ -86,8 +86,8 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/Category
-        [HttpPost]
+        // POST: /Category
+        [HttpPost("/Category")]
         public async Task<ActionResult<CategoryOut>> PostCategory(CategoryIn categoryIn)
         {
             try

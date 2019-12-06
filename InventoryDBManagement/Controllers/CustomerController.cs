@@ -23,7 +23,7 @@ namespace InventoryDBManagement.Controllers
             _context = context;
         }
 
-        // GET: api/Customer
+        // GET: /Customers
         [HttpGet("/Customers")]
         public async Task<ActionResult<IEnumerable<CustomerOut>>> GetCustomers()
         {
@@ -40,8 +40,8 @@ namespace InventoryDBManagement.Controllers
             return customers;
         }
 
-        // GET: api/Customer/5
-        [HttpGet("{id}")]
+        // GET: /Customer/5
+        [HttpGet("/Customer/{id}")]
         public async Task<ActionResult<CustomerOut>> GetCustomer(int id)
         {
             var customer = await _context.Customers
@@ -55,8 +55,8 @@ namespace InventoryDBManagement.Controllers
             return new CustomerOut(customer);
         }
 
-        // PUT: api/Customer/5
-        [HttpPut("{id}")]
+        // PUT: /Customer/5
+        [HttpPut("/Customer/{id}")]
         public async Task<IActionResult> PutCustomer(int id, CustomerDTO customerDTO)
         {
             if (id != customerDTO.ID)
@@ -86,7 +86,7 @@ namespace InventoryDBManagement.Controllers
         }
 
         // POST: api/Customer
-        [HttpPost]
+        [HttpPost("/Customer")]
         public async Task<ActionResult<CustomerOut>> PostCustomer(CustomerIn customerIn)
         {
             var customerDto = new CustomerDTO(customerIn);

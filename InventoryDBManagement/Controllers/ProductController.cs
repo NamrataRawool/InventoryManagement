@@ -24,7 +24,7 @@ namespace InventoryDBManagement.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly InventoryDBContext _context;
         private readonly SharedMediaConfigOptions _sharedMediaOptions;
-        private const string api = "";
+
         public ProductController(IHostingEnvironment hostingEnvironment, InventoryDBContext context, IOptions<SharedMediaConfigOptions> sharedMediaOptions)
         {
             _hostingEnvironment = hostingEnvironment;
@@ -32,7 +32,7 @@ namespace InventoryDBManagement.Controllers
             _sharedMediaOptions = sharedMediaOptions.Value;
         }
 
-        // GET: api/Products
+        // GET: /Products
         [HttpGet("/Products")]
         public async Task<ActionResult<IEnumerable<ProductOut>>> GetProducts()
         {
@@ -50,8 +50,8 @@ namespace InventoryDBManagement.Controllers
             return products;
         }
 
-        // GET: api/Product/5
-        [HttpGet("{id}")]
+        // GET: /Product/5
+        [HttpGet("/Product/{id}")]
         public async Task<ActionResult<ProductOut>> GetProduct(int id)
         {
             var product = await _context.Products
@@ -68,8 +68,8 @@ namespace InventoryDBManagement.Controllers
             return new ProductOut(product);
         }
 
-        // PUT: api/Product/5
-        [HttpPut("{id}")]
+        // PUT: /Product/5
+        [HttpPut("/Product/{id}")]
         public async Task<IActionResult> PutProduct(int id, ProductDTO productDto)
         {
             if (id != productDto.ID)
@@ -98,8 +98,8 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/Product
-        [HttpPost]
+        // POST: /Product
+        [HttpPost("/Product")]
         public async Task<ActionResult<ProductOut>> PostProduct([FromForm]ProductIn productIn)
         {
             try
@@ -162,8 +162,8 @@ namespace InventoryDBManagement.Controllers
             return products;
         }
 
-        // DELETE: api/Product/5
-        [HttpDelete("{ id}")]
+        // DELETE: /Product/5
+        [HttpDelete("/Product/{id}")]
         public async Task<ActionResult<ProductDTO>> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);

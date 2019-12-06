@@ -23,7 +23,7 @@ namespace InventoryDBManagement.Controllers
             _context = context;
         }
 
-        // GET: api/Stock
+        // GET: /Stock
         [HttpGet("/Stocks")]
         public async Task<ActionResult<IEnumerable<StockOut>>> GetStocks()
         {
@@ -42,8 +42,8 @@ namespace InventoryDBManagement.Controllers
             return stocks;
         }
 
-        // GET: api/Stock/5
-        [HttpGet("{id}")]
+        // GET: /Stock/5
+        [HttpGet("/Stock/{id}")]
         public async Task<ActionResult<StockOut>> GetStock(int id)
         {
             var stockDTO = await _context.Stocks
@@ -59,8 +59,8 @@ namespace InventoryDBManagement.Controllers
             return new StockOut(stockDTO);
         }
 
-        // PUT: api/Stock/5
-        [HttpPut("{id}")]
+        // PUT: /Stock/5
+        [HttpPut("/Stock/{id}")]
         public async Task<IActionResult> PutStock(int id, StockDTO stockDTO)
         {
             if (id != stockDTO.ID)
@@ -89,8 +89,8 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/Stock
-        [HttpPost]
+        // POST: /Stock
+        [HttpPost("/Stock")]
         public async Task<ActionResult<StockOut>> PostStock(StockIn stockIn)
         {
             var stockDto = new StockDTO(stockIn);

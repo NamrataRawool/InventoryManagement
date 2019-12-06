@@ -25,7 +25,7 @@ namespace InventoryDBManagement.Controllers
             _productsController = productsController;
         }
 
-        // GET: api/Transactions
+        // GET: /Transactions
         [HttpGet("/Transactions")]
         public async Task<ActionResult<List<TransactionOut>>> GetTransactions()
         {
@@ -45,8 +45,8 @@ namespace InventoryDBManagement.Controllers
             return transactionList;
         }
 
-        // GET: api/Transaction/5
-        [HttpGet("{id}")]
+        // GET: /Transaction/5
+        [HttpGet("/Transaction/{id}")]
         public async Task<ActionResult<TransactionOut>> GetTransaction(int id)
         {
             try
@@ -86,8 +86,8 @@ namespace InventoryDBManagement.Controllers
 
         }
 
-        // PUT: api/Transaction/5
-        [HttpPut("{id}")]
+        // PUT: /Transaction/5
+        [HttpPut("/Transaction/{id}")]
         public async Task<IActionResult> PutTransaction(int id, TransactionDTO transactionDto)
         {
             if (id != transactionDto.ID)
@@ -116,8 +116,8 @@ namespace InventoryDBManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/Transaction
-        [HttpPost]
+        // POST: /Transaction
+        [HttpPost("/Transaction")]
         public async Task<ActionResult<TransactionOut>> PostTransaction(TransactionIn transactionIn)
         {
             try
@@ -137,8 +137,8 @@ namespace InventoryDBManagement.Controllers
             }
 
         }
-        // GET: api/Transactions
-        [HttpGet("")]
+        // GET: /Transaction?from={}&to={}
+        [HttpGet]
         public async Task<ActionResult<List<TransactionOut>>> SearchTransactions(string from, string to)
         {
             try
