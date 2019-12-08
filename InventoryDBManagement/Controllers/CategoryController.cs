@@ -41,7 +41,7 @@ namespace InventoryDBManagement.Controllers
         }
 
         // GET: /Category/5
-        [HttpGet("/Catgory/{id}")]
+        [HttpGet("/Category/{id}")]
         public async Task<ActionResult<CategoryOut>> GetCategory(int id)
         {
             var category = await _context.Categories
@@ -57,7 +57,7 @@ namespace InventoryDBManagement.Controllers
         }
 
         // PUT: /Category/5
-        [HttpPut("/Catgory/{id}")]
+        [HttpPut("/Category/{id}")]
         public async Task<IActionResult> PutCategory(int id, CategoryDTO categoryDto)
         {
             if (id != categoryDto.ID)

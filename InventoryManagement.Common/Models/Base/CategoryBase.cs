@@ -39,7 +39,7 @@ namespace InventoryManagement.Common.Models.Base
         }
         [Required]
         [JsonProperty]
-        public int CGST
+        public double CGST
         {
             get;
             set;
@@ -47,7 +47,7 @@ namespace InventoryManagement.Common.Models.Base
 
         [Required]
         [JsonProperty]
-        public int SGST
+        public double SGST
         {
             get;
             set;
