@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InventoryDBManagement.DAL;
-using InventoryManagement.Common.Models;
-using InventoryManagement.Common.Models.DTO;
-using InventoryManagement.Common.Models.Out;
-using InventoryManagement.Common.Models.In;
+using InventoryManagement.Models;
+using InventoryManagement.Models.DTO;
+using InventoryManagement.Models.Out;
+using InventoryManagement.Models.In;
 
 namespace InventoryDBManagement.Controllers
 {
@@ -52,7 +52,6 @@ namespace InventoryDBManagement.Controllers
             try
             {
                 var transactionDto = _context.Transactions
-                .Include(t => t.Customer)
                 .AsNoTracking()
                 .FirstOrDefault(t => t.ID == id);
 
@@ -74,13 +73,14 @@ namespace InventoryDBManagement.Controllers
                     prodList.Add(product.Value);
                     i++;
                 }
-                var transactionOut = new TransactionOut(transactionDto);
+                var transactionOut = new TransactionOut(_context, transactionDto);
                 transactionOut.ProductDetails = prodList;
 
                 return transactionOut;
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 throw;
             }
 
@@ -118,7 +118,7 @@ namespace InventoryDBManagement.Controllers
 
         // POST: /Transaction
         [HttpPost("/Transaction")]
-        public async Task<ActionResult<TransactionOut>> PostTransaction(TransactionIn transactionIn)
+        public async Task<ActionResult<TransactionOut>> PostTransaction([FromForm]TransactionIn transactionIn)
         {
             try
             {
@@ -165,7 +165,7 @@ namespace InventoryDBManagement.Controllers
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.ToString());
                 throw;
             }
         }

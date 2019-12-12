@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InventoryDBManagement.DAL;
-using InventoryManagement.Common.Models;
-using InventoryManagement.Common.Models.Out;
-using InventoryManagement.Common.Models.In;
-using InventoryManagement.Common.Models.DTO;
+using InventoryManagement.Models;
+using InventoryManagement.Models.Out;
+using InventoryManagement.Models.In;
+using InventoryManagement.Models.DTO;
 
 namespace InventoryDBManagement.Controllers
 {
@@ -31,12 +31,11 @@ namespace InventoryDBManagement.Controllers
             var categoriesDto = await _context.Categories
                 .AsNoTracking()
                 .ToListAsync();
+
             List<CategoryOut> categories = new List<CategoryOut>();
             foreach (var category in categoriesDto)
-            {
-                var categoryOut = new CategoryOut(category);
-                categories.Add(categoryOut);
-            }
+                categories.Add(new CategoryOut(_context, category));
+
             return categories;
         }
 
@@ -49,11 +48,9 @@ namespace InventoryDBManagement.Controllers
                 .FirstOrDefaultAsync(c => c.ID == id);
 
             if (category == null)
-            {
                 return NotFound();
-            }
 
-            return new CategoryOut(category);
+            return new CategoryOut(_context, category);
         }
 
         // PUT: /Category/5
@@ -61,9 +58,7 @@ namespace InventoryDBManagement.Controllers
         public async Task<IActionResult> PutCategory(int id, CategoryDTO categoryDto)
         {
             if (id != categoryDto.ID)
-            {
                 return BadRequest();
-            }
 
             _context.Entry(categoryDto).State = EntityState.Modified;
 
@@ -74,13 +69,9 @@ namespace InventoryDBManagement.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!CategoryExists(id))
-                {
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
@@ -88,7 +79,7 @@ namespace InventoryDBManagement.Controllers
 
         // POST: /Category
         [HttpPost("/Category")]
-        public async Task<ActionResult<CategoryOut>> PostCategory(CategoryIn categoryIn)
+        public async Task<ActionResult<CategoryOut>> PostCategory([FromForm]CategoryIn categoryIn)
         {
             try
             {

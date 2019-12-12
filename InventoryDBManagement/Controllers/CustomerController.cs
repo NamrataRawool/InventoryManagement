@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InventoryDBManagement.DAL;
-using InventoryManagement.Common.Models.DTO;
-using InventoryManagement.Common.Models.In;
-using InventoryManagement.Common.Models.Out;
+using InventoryManagement.Models.DTO;
+using InventoryManagement.Models.In;
+using InventoryManagement.Models.Out;
 
 namespace InventoryDBManagement.Controllers
 {
@@ -34,7 +34,7 @@ namespace InventoryDBManagement.Controllers
             List<CustomerOut> customers = new List<CustomerOut>();
             foreach (var customer in customersDto)
             {
-                var customerOut = new CustomerOut(customer);
+                var customerOut = new CustomerOut(_context, customer);
                 customers.Add(customerOut);
             }
             return customers;
@@ -52,7 +52,7 @@ namespace InventoryDBManagement.Controllers
                 return NotFound();
             }
 
-            return new CustomerOut(customer);
+            return new CustomerOut(_context, customer);
         }
 
         // PUT: /Customer/5
@@ -87,7 +87,7 @@ namespace InventoryDBManagement.Controllers
 
         // POST: api/Customer
         [HttpPost("/Customer")]
-        public async Task<ActionResult<CustomerOut>> PostCustomer(CustomerIn customerIn)
+        public async Task<ActionResult<CustomerOut>> PostCustomer([FromForm]CustomerIn customerIn)
         {
             var customerDto = new CustomerDTO(customerIn);
             _context.Customers.Add(customerDto);

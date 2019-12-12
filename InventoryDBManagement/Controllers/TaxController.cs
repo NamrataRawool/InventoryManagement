@@ -6,7 +6,7 @@
 //using Microsoft.AspNetCore.Mvc;
 //using Microsoft.EntityFrameworkCore;
 //using InventoryDBManagement.DAL;
-//using InventoryManagement.Common.Models;
+//using InventoryManagement.Models;
 
 //namespace InventoryDBManagement.Controllers
 //{

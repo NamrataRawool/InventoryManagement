@@ -22,11 +22,6 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\InventoryManagement.Common\InventoryManagement.Common.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <Folder Include="wwwroot\shared\media\Products\" />
   </ItemGroup>
 

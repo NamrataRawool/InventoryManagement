@@ -1,5 +1,5 @@
-﻿using InventoryManagement.Common.Models;
-using InventoryManagement.Common.Models.DTO;
+﻿using InventoryManagement.Models;
+using InventoryManagement.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,12 @@ namespace InventoryDBManagement.DAL
         public DbSet<TransactionDTO> Transactions { get; set; }
         public DbSet<CustomerDTO> Customers { get; set; }
         public DbSet<StockDTO> Stocks { get; set; }
+
+        public ProductDTO GetProduct(int ID) { return Products.Find(ID); }
+        public CategoryDTO GetCategory(int ID) { return Categories.Find(ID); }
+        public TransactionDTO GetTransaction(int ID) { return Transactions.Find(ID); }
+        public CustomerDTO GetCustomer(int ID) { return Customers.Find(ID); }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Filename=InventoryDb.db", options =>

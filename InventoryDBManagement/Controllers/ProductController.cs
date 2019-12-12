@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InventoryDBManagement.DAL;
-using InventoryManagement.Common.Models;
+using InventoryManagement.Models;
 using System.IO;
 using Microsoft.Extensions.Options;
 using InventoryDBManagement.Configuration.Options;
-using InventoryManagement.Common.Models.DTO;
-using InventoryManagement.Common.Models.In;
-using InventoryManagement.Common.Models.Out;
+using InventoryManagement.Models.DTO;
+using InventoryManagement.Models.In;
+using InventoryManagement.Models.Out;
 using Microsoft.AspNetCore.Hosting;
 
 namespace InventoryDBManagement.Controllers
@@ -37,16 +37,13 @@ namespace InventoryDBManagement.Controllers
         public async Task<ActionResult<IEnumerable<ProductOut>>> GetProducts()
         {
             var productDtos = await _context.Products
-                .Include(p => p.Category)
                 .AsNoTracking().
                 ToListAsync();
 
             List<ProductOut> products = new List<ProductOut>();
             foreach (var product in productDtos)
-            {
-                var productOut = new ProductOut(product);
-                products.Add(productOut);
-            }
+                products.Add(new ProductOut(_context, product));
+
             return products;
         }
 
@@ -55,7 +52,6 @@ namespace InventoryDBManagement.Controllers
         public async Task<ActionResult<ProductOut>> GetProduct(int id)
         {
             var product = await _context.Products
-                .Include(p => p.Category)
                 .AsNoTracking().
                 FirstOrDefaultAsync(p => p.ID == id);
 
@@ -65,7 +61,7 @@ namespace InventoryDBManagement.Controllers
                 return NotFound();
             }
 
-            return new ProductOut(product);
+            return new ProductOut(_context, product);
         }
 
         // PUT: /Product/5
@@ -130,8 +126,8 @@ namespace InventoryDBManagement.Controllers
                 productDTO.ImagePath = pathToSave;
                 
                 await PutProduct(productDTO.ID, productDTO);
-                ProductOut productOut = new ProductOut(productDTO);
-                return productOut;
+
+                return new ProductOut(_context, productDTO);
             }
             catch (Exception ex)
             {
@@ -148,17 +144,14 @@ namespace InventoryDBManagement.Controllers
                 return BadRequest();
 
             var productDtos = await _context.Products
-            .Include(p => p.Category)
             .AsNoTracking()
             .Where(p => p.Name.Contains(name))
             .ToListAsync();
 
             List<ProductOut> products = new List<ProductOut>();
             foreach (var product in productDtos)
-            {
-                var productOut = new ProductOut(product);
-                products.Add(productOut);
-            }
+                products.Add(new ProductOut(_context, product));
+
             return products;
         }
 

@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InventoryDBManagement.DAL;
-using InventoryManagement.Common.Models.DTO;
-using InventoryManagement.Common.Models.Out;
-using InventoryManagement.Common.Models.In;
+using InventoryManagement.Models.DTO;
+using InventoryManagement.Models.Out;
+using InventoryManagement.Models.In;
 
 namespace InventoryDBManagement.Controllers
 {
