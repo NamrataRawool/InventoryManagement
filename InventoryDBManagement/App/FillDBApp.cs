@@ -13,12 +13,13 @@ namespace InventoryDBManagement.App
 
         enum FillEntry
         {
-            Categories      = 1 << 0,
-            Products        = 1 << 1,
-            Transactions    = 1 << 2,
-            Customers       = 1 << 3,
+            Categories      = 1 << 0, // 1
+            Products        = 1 << 1, // 2
+            Transactions    = 1 << 2, // 4
+            Customers       = 1 << 3, // 8
+            Stocks          = 1 << 4, // 16
 
-            All = Categories | Products | Transactions | Customers,
+            All = Categories | Products | Transactions | Customers | Stocks,
         }
 
         public override void Start(string[] args)
@@ -27,6 +28,8 @@ namespace InventoryDBManagement.App
             FillFlag |= (int)FillEntry.Categories;
             FillFlag |= (int)FillEntry.Products;
             FillFlag |= (int)FillEntry.Customers;
+            FillFlag |= (int)FillEntry.Transactions;
+            FillFlag |= (int)FillEntry.Stocks;
 
             Fill(FillFlag);
         }
@@ -51,6 +54,18 @@ namespace InventoryDBManagement.App
                 result = "insert into Customers (Name, MobileNumber, Email, PendingAmount, TotalAmount)";
                 result += " ";
                 result += "values (@Name, @MobileNumber, @Email, @PendingAmount, @TotalAmount)";
+            }
+            else if (typeof(T) == typeof(TransactionDTO))
+            {
+                result = "insert into Transactions (TotalPrice, ProductIDs, ProductQuantity, TransactionDateTime, CustomerID)";
+                result += " ";
+                result += "values (@TotalPrice, @ProductIDs, @ProductQuantity, @TransactionDateTime, @CustomerID)";
+            }
+            else if (typeof(T) == typeof(StockDTO))
+            {
+                result = "insert into Stocks (ProductID, AvailableQuantity, TotalQuantity)";
+                result += " ";
+                result += "values (@ProductID, @AvailableQuantity, @TotalQuantity)";
             }
 
             return result;
@@ -91,6 +106,24 @@ namespace InventoryDBManagement.App
                     "PendingAmount integer, " +
                     "TotalAmount integer);";
             }
+            else if (typeof(T) == typeof(TransactionDTO))
+            {
+                query = "create table if not exists Transactions(" +
+                    "ID integer primary key," +
+                    "TotalPrice integer, " +
+                    "ProductIDs text, " +
+                    "ProductQuantity text, " +
+                    "TransactionDateTime datetime default current_timestamp, " +
+                    "CustomerID integer);";
+            }
+            else if (typeof(T) == typeof(StockDTO))
+            {
+                query = "create table if not exists Stocks(" +
+                    "ID integer primary key," +
+                    "ProductID integer, " +
+                    "AvailableQuantity integer, " +
+                    "TotalQuantity integer);";
+            }
 
             connection.Open();
 
@@ -113,6 +146,73 @@ namespace InventoryDBManagement.App
 
                 if ((FillFlag & (int)FillEntry.Customers) != 0)
                     FillCustomers(connection);
+                  
+                if ((FillFlag & (int)FillEntry.Transactions) != 0)
+                    FillTransactions(connection);
+
+                if ((FillFlag & (int)FillEntry.Stocks) != 0)
+                    FillStocks(connection);
+
+            }
+        }
+
+        private void FillStocks(IDbConnection connection, int count = 100)
+        {
+            CreateTable<StockDTO>(connection);
+
+            Random random = new Random();
+
+            string InsertionString = GenerateInsertString<StockDTO>();
+            for (int i = 0; i < count; ++i)
+            {
+
+                StockDTO stock = new StockDTO();
+
+                stock.ProductID = 1 + random.Next() % 100;
+                stock.AvailableQuantity = 1 + random.Next() % 50;
+                stock.TotalQuantity = stock.AvailableQuantity + random.Next() % 30;
+
+                connection.Execute(InsertionString, stock);
+            }
+        }
+
+
+        private void FillTransactions(IDbConnection connection, int count = 100)
+        {
+            CreateTable<TransactionDTO>(connection);
+
+            Random random = new Random();
+
+            string InsertionString = GenerateInsertString<TransactionDTO>();
+            for (int i = 0; i < count; ++i)
+            {
+
+                TransactionDTO transaction = new TransactionDTO();
+                transaction.TotalPrice = (int)(1000 * (1 + random.NextDouble()));
+
+                string productids = "";
+                int productids_limit = 1 + random.Next() % 10;
+                for (int q = 0; q < productids_limit; ++q)
+                {
+                    int productID = 1 + random.Next() % 100;
+                    productids += productID + ",";
+                }
+                productids = productids.Substring(0, productids.Length - 1);
+                transaction.ProductIDs = productids;
+
+                string quantity = "";
+                int quantity_limit = productids_limit;
+                for (int q = 0; q < quantity_limit; ++q)
+                {
+                    int temp = 1 + random.Next() % 100;
+                    quantity += temp + ",";
+                }
+                quantity = quantity.Substring(0, quantity.Length - 1);
+                transaction.ProductQuantity = quantity;
+                transaction.TransactionDateTime = DateTime.Now;
+                transaction.CustomerID = 1 + (random.Next() % 100);
+
+                connection.Execute(InsertionString, transaction);
             }
         }
 

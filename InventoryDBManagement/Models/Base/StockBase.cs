@@ -10,31 +10,19 @@ namespace InventoryManagement.Models.Base
     {
         [Key]
         [JsonProperty]
-        public int ID
-        {
-            get;
-            set;
-        }
+        public int ID { get; set; }
+
         [Required]
         [JsonProperty]
-        public int ProductID
-        {
-            get;
-            set;
-        }
+        public int ProductID { get; set; }
+
         [Required]
         [JsonProperty]
-        public int AvailableQuantity
-        {
-            get;
-            set;
-        }
+        public int AvailableQuantity { get; set; }
+
         [Required]
         [JsonProperty]
-        public int TotalQuantity
-        {
-            get;
-            set;
-        }
+        public int TotalQuantity { get; set; }
+
     }
 }

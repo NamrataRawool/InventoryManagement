@@ -12,11 +12,14 @@ namespace InventoryManagement.Models.Out
     {
         public TransactionOut(InventoryDBContext context, TransactionDTO dto) : base(dto)
         {
+            ProductDetails = new List<ProductOut>();
+
             // fill ProductDetails
             string[] IDs = dto.ProductIDs.Split(',');
             foreach (string sID in IDs)
             {
                 int ID = int.Parse(sID);
+
                 ProductDetails.Add(new ProductOut(context, context.GetProduct(ID)));
             }
 

@@ -29,14 +29,13 @@ namespace InventoryDBManagement.Controllers
         {
             await _context.Stocks.ToListAsync();
             var stocksDto = await _context.Stocks
-                .Include(s => s.Product)
                .AsNoTracking().
                ToListAsync();
 
             List<StockOut> stocks = new List<StockOut>();
             foreach (var stock in stocksDto)
             {
-                var stockOut = new StockOut(stock);
+                var stockOut = new StockOut(_context, stock);
                 stocks.Add(stockOut);
             }
             return stocks;
@@ -47,7 +46,6 @@ namespace InventoryDBManagement.Controllers
         public async Task<ActionResult<StockOut>> GetStock(int id)
         {
             var stockDTO = await _context.Stocks
-                .Include(s => s.Product)
                 .AsNoTracking()
                 .FirstAsync(s => s.ID == id);
 
@@ -56,7 +54,7 @@ namespace InventoryDBManagement.Controllers
                 return NotFound();
             }
 
-            return new StockOut(stockDTO);
+            return new StockOut(_context, stockDTO);
         }
 
         // PUT: /Stock/5
