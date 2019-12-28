@@ -53,6 +53,19 @@ namespace InventoryDBManagement.Controllers
             return new CategoryOut(_context, category);
         }
 
+        [HttpGet("/Category/name-{name}")]
+        public async Task<ActionResult<CategoryOut>> GetCategory(string name)
+        {
+            var category = await _context.Categories
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(c => c.Name == name);
+
+            if (category == null)
+                return NotFound();
+
+            return new CategoryOut(_context, category);
+        }
+
         // PUT: /Category/5
         [HttpPut("/Category/{id}")]
         public async Task<IActionResult> PutCategory(int id, CategoryDTO categoryDto)

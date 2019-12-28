@@ -108,20 +108,27 @@ namespace InventoryDBManagement.Controllers
 
                 //// Save image with IformFile
                 string pathToSave = String.Empty;
-                foreach (var image in productIn.Images)
+                if (productIn.Images != null)
                 {
-                    if (image.Length > 0)
+                    foreach (var image in productIn.Images)
                     {
-                        string FolderPath = Path.Combine(_hostingEnvironment.WebRootPath, _sharedMediaOptions.Products, productDTO.ID.ToString());
-                        if (!Directory.Exists(FolderPath))
-                            Directory.CreateDirectory(FolderPath);
+                        if (image.Length > 0)
+                        {
+                            string FolderPath = Path.Combine(_hostingEnvironment.WebRootPath, _sharedMediaOptions.Products, productDTO.ID.ToString());
+                            if (!Directory.Exists(FolderPath))
+                                Directory.CreateDirectory(FolderPath);
 
-                        var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ID.ToString(), image.FileName);
-                        var finalPath = Path.Combine(FolderPath, image.FileName);
-                        image.CopyTo(new FileStream(finalPath, FileMode.Create));
-                        pathToSave += relativeDestPath + ",";
+                            var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ID.ToString(), image.FileName);
+                            var finalPath = Path.Combine(FolderPath, image.FileName);
+                            image.CopyTo(new FileStream(finalPath, FileMode.Create));
+                            pathToSave += relativeDestPath + ",";
+                        }
                     }
                 }
+
+                // remove last ','
+                if(pathToSave != null && pathToSave.Length > 0)
+                    pathToSave = pathToSave.Substring(0, pathToSave.Length - 1);
 
                 productDTO.ImagePath = pathToSave;
                 

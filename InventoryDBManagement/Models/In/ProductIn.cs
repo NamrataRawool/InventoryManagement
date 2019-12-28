@@ -12,17 +12,10 @@ namespace InventoryManagement.Models.In
     {
         [Required]
         [JsonProperty]
-        public int CategoryID
-        {
-            get;
-            set;
-        }
+        public int CategoryID { get; set; }
+
         [JsonProperty]
-        public List<IFormFile> Images
-        {
-            get;
-            set;
-        }
+        public List<IFormFile> Images { get; set; }
 
     }
 
