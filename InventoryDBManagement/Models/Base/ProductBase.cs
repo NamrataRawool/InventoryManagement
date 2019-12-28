@@ -20,39 +20,25 @@ namespace InventoryManagement.Models.Base
 
         [Key]
         [JsonProperty]
-        public int ID
-        {
-            get;
-            set;
-        }
-        [Required]
-        [JsonProperty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public int ID { get; set; }
 
         [JsonProperty]
-        public string Description
-        {
-            get;
-            set;
-        }
+        public string Barcode { get; set; }
 
         [Required]
         [JsonProperty]
-        public int RetailPrice
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
+
+        [JsonProperty]
+        public string Description { get; set; }
+
         [Required]
         [JsonProperty]
-        public int WholeSalePrice
-        {
-            get;
-            set;
-        }
+        public int RetailPrice { get; set; }
+
+        [Required]
+        [JsonProperty]
+        public int WholeSalePrice { get; set; }
+
     }
 }
