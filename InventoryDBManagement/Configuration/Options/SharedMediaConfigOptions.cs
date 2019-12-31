@@ -7,20 +7,11 @@ namespace InventoryDBManagement.Configuration.Options
 {
     public class SharedMediaConfigOptions
     {
-        public string Products
-        {
-            get;
-            set;
-        }
-        public string Categories
-        {
-            get;
-            set;
-        }
-        public string Transactions
-        {
-            get;
-            set;
-        }
+        public string Products { get; set; }
+
+        public string Categories { get; set; }
+
+        public string Transactions { get; set; }
+
     }
 }

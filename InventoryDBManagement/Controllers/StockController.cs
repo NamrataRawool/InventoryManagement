@@ -27,7 +27,6 @@ namespace InventoryDBManagement.Controllers
         [HttpGet("/Stocks")]
         public async Task<ActionResult<IEnumerable<StockOut>>> GetStocks()
         {
-            await _context.Stocks.ToListAsync();
             var stocksDto = await _context.Stocks
                .AsNoTracking().
                ToListAsync();
@@ -50,9 +49,21 @@ namespace InventoryDBManagement.Controllers
                 .FirstAsync(s => s.ID == id);
 
             if (stockDTO == null)
-            {
                 return NotFound();
-            }
+
+            return new StockOut(_context, stockDTO);
+        }
+
+        // GET: /Stock/5
+        [HttpGet("/Stock/ProductID={id}")]
+        public async Task<ActionResult<StockOut>> GetStockFromProduct(int id)
+        {
+            var stockDTO = await _context.Stocks
+                .AsNoTracking()
+                .FirstAsync(s => s.ProductID == id);
+
+            if (stockDTO == null)
+                return NotFound();
 
             return new StockOut(_context, stockDTO);
         }

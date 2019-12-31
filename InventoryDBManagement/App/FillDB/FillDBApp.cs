@@ -22,25 +22,32 @@ namespace InventoryDBManagement.App
             Transactions    = 1 << 2, // 4
             Customers       = 1 << 3, // 8
             Stocks          = 1 << 4, // 16
+            Vendors         = 1 << 5, // 32
+            Purchases       = 1 << 6, // 64
 
-            All = Categories | Products | Transactions | Customers | Stocks,
+            All = Categories | Products | Transactions | Customers | Stocks | Vendors | Purchases,
         }
 
         public override void Start(string[] args)
         {
 
-            int FillFlag = (int)FillEntry.All;
+            int FillFlag = 0;
+            //int FillFlag = (int)FillEntry.All;
             //FillFlag |= (int)FillEntry.Categories;
             //FillFlag |= (int)FillEntry.Products;
             //FillFlag |= (int)FillEntry.Customers;
             //FillFlag |= (int)FillEntry.Transactions;
             //FillFlag |= (int)FillEntry.Stocks;
+            //FillFlag |= (int)FillEntry.Vendors;
+            FillFlag |= (int)FillEntry.Purchases;
 
             m_DBTableHandlers.Add(FillEntry.Categories, new DBTableHandler_Categories());
             m_DBTableHandlers.Add(FillEntry.Products, new DBTableHandler_Product());
             m_DBTableHandlers.Add(FillEntry.Customers, new DBTableHandler_Customers());
             m_DBTableHandlers.Add(FillEntry.Transactions, new DBTableHandler_Transactions());
             m_DBTableHandlers.Add(FillEntry.Stocks, new DBTableHandler_Stocks());
+            m_DBTableHandlers.Add(FillEntry.Vendors, new DBTableHandler_Vendors());
+            m_DBTableHandlers.Add(FillEntry.Purchases, new DBTableHandler_Purchases());
 
             Fill(FillFlag);
         }
@@ -64,6 +71,12 @@ namespace InventoryDBManagement.App
 
                 if ((FillFlag & (int)FillEntry.Stocks) != 0)
                     m_DBTableHandlers[FillEntry.Stocks].Fill(connection);
+
+                if ((FillFlag & (int)FillEntry.Vendors) != 0)
+                    m_DBTableHandlers[FillEntry.Vendors].Fill(connection);
+
+                if ((FillFlag & (int)FillEntry.Purchases) != 0)
+                    m_DBTableHandlers[FillEntry.Purchases].Fill(connection, 5);
             }
         }
 

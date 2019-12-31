@@ -12,6 +12,7 @@ namespace InventoryManagement.Models.Base
         public ProductBase(ProductBase rhs)
         {
             ID = rhs.ID;
+            Barcode = rhs.Barcode;
             Name = rhs.Name;
             Description = rhs.Description;
             RetailPrice = rhs.RetailPrice;

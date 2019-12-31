@@ -53,7 +53,7 @@ namespace InventoryDBManagement.Controllers
             return new CategoryOut(_context, category);
         }
 
-        [HttpGet("/Category/name-{name}")]
+        [HttpGet("/Category/name={name}")]
         public async Task<ActionResult<CategoryOut>> GetCategory(string name)
         {
             var category = await _context.Categories

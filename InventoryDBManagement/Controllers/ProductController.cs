@@ -55,11 +55,8 @@ namespace InventoryDBManagement.Controllers
                 .AsNoTracking().
                 FirstOrDefaultAsync(p => p.ID == id);
 
-
             if (product == null)
-            {
                 return NotFound();
-            }
 
             return new ProductOut(_context, product);
         }
@@ -69,9 +66,7 @@ namespace InventoryDBManagement.Controllers
         public async Task<IActionResult> PutProduct(int id, ProductDTO productDto)
         {
             if (id != productDto.ID)
-            {
                 return BadRequest();
-            }
 
             _context.Entry(productDto).State = EntityState.Modified;
 
@@ -82,59 +77,103 @@ namespace InventoryDBManagement.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!ProductExists(id))
-                {
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
         }
 
-        // POST: /Product
-        [HttpPost("/Product")]
-        public async Task<ActionResult<ProductOut>> PostProduct([FromForm]ProductIn productIn)
+        /* return the path to save in the DB */
+        private string UpdateImage(ProductDTO productDTO, ProductIn productIN)
+        {
+            string pathToSave = String.Empty;
+            if (productIN.Images != null)
+            {
+                var image = productIN.Images[0];
+                if (image.Length > 0)
+                {
+                    string FolderPath = Path.Combine(_hostingEnvironment.WebRootPath, _sharedMediaOptions.Products, productDTO.ID.ToString());
+                    if (!Directory.Exists(FolderPath))
+                        Directory.CreateDirectory(FolderPath);
+
+                    // copy the image
+                    var finalPath = Path.Combine(FolderPath, image.FileName);
+                    using(var fs = new FileStream(finalPath, FileMode.Create))
+                        image.CopyTo(fs);
+
+                    var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ID.ToString(), image.FileName);
+                    pathToSave += relativeDestPath + ",";
+                }
+
+                // remove last ','
+                if (pathToSave != null && pathToSave.Length > 0)
+                    pathToSave = pathToSave.Substring(0, pathToSave.Length - 1);
+
+                productDTO.ImagePath = pathToSave;
+            }
+            return pathToSave;
+        }
+
+        private async Task<ActionResult<ProductOut>> AddNewProduct(ProductIn productIN)
         {
             try
             {
-                ProductDTO productDTO = new ProductDTO(productIn);
+                ProductDTO productDTO = new ProductDTO(productIN);
                 _context.Products.Add(productDTO);
                 await _context.SaveChangesAsync();
 
                 productDTO = CreatedAtAction("GetProduct", new { id = productDTO.ID }, productDTO).Value as ProductDTO;
 
-                //// Save image with IformFile
-                string pathToSave = String.Empty;
-                if (productIn.Images != null)
-                {
-                    foreach (var image in productIn.Images)
-                    {
-                        if (image.Length > 0)
-                        {
-                            string FolderPath = Path.Combine(_hostingEnvironment.WebRootPath, _sharedMediaOptions.Products, productDTO.ID.ToString());
-                            if (!Directory.Exists(FolderPath))
-                                Directory.CreateDirectory(FolderPath);
+                // Save image with IformFile
+                UpdateImage(productDTO, productIN);
 
-                            var relativeDestPath = Path.Combine(_sharedMediaOptions.Products, productDTO.ID.ToString(), image.FileName);
-                            var finalPath = Path.Combine(FolderPath, image.FileName);
-                            image.CopyTo(new FileStream(finalPath, FileMode.Create));
-                            pathToSave += relativeDestPath + ",";
-                        }
-                    }
-                }
-
-                // remove last ','
-                if(pathToSave != null && pathToSave.Length > 0)
-                    pathToSave = pathToSave.Substring(0, pathToSave.Length - 1);
-
-                productDTO.ImagePath = pathToSave;
-                
                 await PutProduct(productDTO.ID, productDTO);
 
                 return new ProductOut(_context, productDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
+        }
+
+        private async Task<ActionResult<ProductOut>> UpdateProduct(ProductIn productIN)
+        {
+            try
+            {
+                //var productDTO = await _context.Products
+                //            .AsNoTracking()
+                //            .FirstOrDefaultAsync(p => p.ID == productIN.ID);
+
+                var productDTO = new ProductDTO(productIN);
+                UpdateImage(productDTO, productIN);
+
+                await PutProduct(productDTO.ID, productDTO);
+
+                return new ProductOut(_context, productDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
+        // POST: /Product
+        [HttpPost("/Product")]
+        public async Task<ActionResult<ProductOut>> PostProduct([FromForm]ProductIn productIN)
+        {
+            try
+            {
+                if (productIN.ID == 0)
+                    return await AddNewProduct(productIN);
+
+                return await UpdateProduct(productIN);
+                
             }
             catch (Exception ex)
             {
@@ -177,8 +216,6 @@ namespace InventoryDBManagement.Controllers
 
             return product;
         }
-
-
 
         #region Public Methods
         public async Task<List<ProductOut>> GetSelectedProducts(List<string> productIds)
