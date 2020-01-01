@@ -11,6 +11,11 @@ namespace InventoryManagement.Models.Base
         public ProductBase() { }
         public ProductBase(ProductBase rhs)
         {
+            CopyFrom(rhs);
+        }
+
+        public void CopyFrom(ProductBase rhs)
+        {
             ID = rhs.ID;
             Barcode = rhs.Barcode;
             Name = rhs.Name;

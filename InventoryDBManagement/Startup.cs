@@ -33,7 +33,7 @@ namespace InventoryDBManagement
             services.AddEntityFrameworkSqlite()
                 .AddDbContext<InventoryDBContext>();
 
-            services.Configure<SharedMediaConfigOptions>(Configuration.GetSection("SharedMediaConfigOptions"));
+            //services.Configure<SharedMediaConfigOptions>(Configuration.GetSection("SharedMediaConfigOptions"));
         }
      
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

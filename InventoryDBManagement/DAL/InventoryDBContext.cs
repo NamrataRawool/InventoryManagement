@@ -17,8 +17,8 @@ namespace InventoryDBManagement.DAL
         public DbSet<TransactionDTO> Transactions { get; set; }
         public DbSet<CustomerDTO>    Customers { get; set; }
         public DbSet<StockDTO>       Stocks { get; set; }
-        public DbSet<VendorDTO>     Vendors { get; set; }
-        public DbSet<PurchaseDTO>   Purchases { get; set; }
+        public DbSet<VendorDTO>      Vendors { get; set; }
+        public DbSet<PurchaseDTO>    Purchases { get; set; }
 
         public ProductDTO GetProduct(int ID) { return Products.Find(ID); }
         public CategoryDTO GetCategory(int ID) { return Categories.Find(ID); }

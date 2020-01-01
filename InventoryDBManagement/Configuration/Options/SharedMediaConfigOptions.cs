@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace InventoryDBManagement.Configuration.Options
 {
-    public class SharedMediaConfigOptions
+    public static class SharedMediaConfigOptions
     {
-        public string Products { get; set; }
+        public static string Products = "shared\\media\\Products";
 
-        public string Categories { get; set; }
+        public static string Categories { get; set; }
 
-        public string Transactions { get; set; }
+        public static string Transactions { get; set; }
 
     }
 }

@@ -15,11 +15,11 @@ namespace InventoryDBManagement.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TransactionController : ControllerBase
+    public class TransactionHttpController : ControllerBase
     {
         private readonly InventoryDBContext _context;
-        private readonly ProductController _productsController;
-        public TransactionController(InventoryDBContext context, ProductController productsController)
+        private readonly ProductHttpController _productsController;
+        public TransactionHttpController(InventoryDBContext context, ProductHttpController productsController)
         {
             _context = context;
             _productsController = productsController;

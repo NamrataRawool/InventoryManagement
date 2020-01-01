@@ -9,17 +9,23 @@ using InventoryDBManagement.DAL;
 using InventoryManagement.Models.DTO;
 using InventoryManagement.Models.Out;
 using InventoryManagement.Models.In;
+using InventoryDBManagement.Handlers;
 
 namespace InventoryDBManagement.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class StockController : ControllerBase
+    public class StockHttpController : ControllerBase
     {
+
+        private StockHandler m_Handler;
+
         private readonly InventoryDBContext _context;
 
-        public StockController(InventoryDBContext context)
+        public StockHttpController(InventoryDBContext context)
         {
+            m_Handler = new StockHandler(context, this);
+    
             _context = context;
         }
 
@@ -56,7 +62,7 @@ namespace InventoryDBManagement.Controllers
 
         // GET: /Stock/5
         [HttpGet("/Stock/ProductID={id}")]
-        public async Task<ActionResult<StockOut>> GetStockFromProduct(int id)
+        public async Task<ActionResult<StockOut>> GetStockFromProductID(int id)
         {
             var stockDTO = await _context.Stocks
                 .AsNoTracking()
@@ -100,7 +106,7 @@ namespace InventoryDBManagement.Controllers
 
         // POST: /Stock
         [HttpPost("/Stock")]
-        public async Task<ActionResult<StockOut>> PostStock(StockIn stockIn)
+        public async Task<ActionResult<StockOut>> PostStock([FromForm]StockIn stockIn)
         {
             var stockDto = new StockDTO(stockIn);
             _context.Stocks.Add(stockDto);

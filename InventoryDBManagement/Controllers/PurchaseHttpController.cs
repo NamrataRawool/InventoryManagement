@@ -15,17 +15,15 @@ namespace InventoryDBManagement.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class PurchaseController : ControllerBase
+    public class PurchaseHttpController : ControllerBase
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IHostingEnvironment m_HostingEnvironment;
         private readonly InventoryDBContext _context;
-        private readonly SharedMediaConfigOptions _sharedMediaOptions;
 
-        public PurchaseController(IHostingEnvironment hostingEnvironment, InventoryDBContext context, IOptions<SharedMediaConfigOptions> sharedMediaOptions)
+        public PurchaseHttpController(IHostingEnvironment hostingEnvironment, InventoryDBContext context)
         {
-            _hostingEnvironment = hostingEnvironment;
+            m_HostingEnvironment = hostingEnvironment;
             _context = context;
-            _sharedMediaOptions = sharedMediaOptions.Value;
         }
 
         // GET: /Purchases
