@@ -27,7 +27,7 @@ namespace InventoryManagement.Models.Base
 
         [Required]
         [JsonProperty]
-        public int TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
 
         [Required]
         [JsonProperty]
@@ -41,7 +41,6 @@ namespace InventoryManagement.Models.Base
         [JsonProperty]
         public DateTime TransactionDateTime { get; set; }
 
-        [Required]
         [JsonProperty]
         public int CustomerID { get; set; }
 

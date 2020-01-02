@@ -30,10 +30,10 @@ namespace InventoryDBManagement.Models.Base
         [Required]
         [JsonProperty]
         public string CompanyName { get; set; }
-
+        [Required]
         [JsonProperty]
         public string Email { get; set; }
-
+        [Required]
         [JsonProperty]
         public string MobileNumber { get; set; }
 

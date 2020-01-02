@@ -66,12 +66,15 @@ namespace InventoryDBManagement.Controllers
                 int i = 0;
                 foreach (var productId in productIDs)
                 {
-                    var product = await _productsController.GetProduct(Convert.ToInt32(productId.Trim()));
-                    if (product == null)
-                        continue;
-                    product.Value.Quantity = Convert.ToInt32(productQuantity[i].Trim());
-                    prodList.Add(product.Value);
-                    i++;
+                    if (!string.IsNullOrEmpty(productId))
+                    {
+                        var product = await _productsController.GetProduct(Convert.ToInt32(productId.Trim()));
+                        if (product == null)
+                            continue;
+                        product.Value.Quantity = Convert.ToInt32(productQuantity[i].Trim());
+                        prodList.Add(product.Value);
+                        i++;
+                    }
                 }
                 var transactionOut = new TransactionOut(_context, transactionDto);
                 transactionOut.ProductDetails = prodList;
@@ -137,9 +140,10 @@ namespace InventoryDBManagement.Controllers
             }
 
         }
+
         // GET: /Transaction?from={}&to={}
-        [HttpGet]
-        public async Task<ActionResult<List<TransactionOut>>> SearchTransactions(string from, string to)
+        [HttpGet("/Transaction/from={from}&to={to}")]
+        public async Task<ActionResult<List<TransactionOut>>> SearchTransactionsByDate(string from, string to)
         {
             try
             {
@@ -169,6 +173,36 @@ namespace InventoryDBManagement.Controllers
                 throw;
             }
         }
+        [HttpGet("/Transaction/customerId={customerId}")]
+        public async Task<ActionResult<List<TransactionOut>>> SearchTransactionsByCustomers(string customerId)
+        {
+            try
+            {
+                List<TransactionDTO> transactions = null;
+                int id = int.Parse(customerId);
+                transactions = await _context.Transactions
+                    .Where(t => t.CustomerID == id)
+                    .ToListAsync();
+
+                if (transactions == null)
+                    return NotFound();
+
+                List<TransactionOut> transactionList = new List<TransactionOut>();
+
+                foreach (var transaction in transactions)
+                {
+                    var trans = await GetTransaction(transaction.ID);
+                    transactionList.Add(trans.Value);
+                }
+                return transactionList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
 
         private bool TransactionExists(int id)
         {

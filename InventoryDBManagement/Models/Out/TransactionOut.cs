@@ -18,9 +18,11 @@ namespace InventoryManagement.Models.Out
             string[] IDs = dto.ProductIDs.Split(',');
             foreach (string sID in IDs)
             {
-                int ID = int.Parse(sID);
-
-                ProductDetails.Add(new ProductOut(context, context.GetProduct(ID)));
+                if (!string.IsNullOrEmpty(sID))
+                {
+                    int ID = int.Parse(sID);
+                    ProductDetails.Add(new ProductOut(context, context.GetProduct(ID)));
+                }
             }
 
             Customer = new CustomerOut(context, context.GetCustomer(dto.CustomerID));
