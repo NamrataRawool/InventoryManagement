@@ -76,10 +76,10 @@ namespace InventoryDBManagement.Controllers
 
         }
 
-        [HttpGet("Product/Name={name}")]
-        public async Task<ActionResult<IEnumerable<ProductOut>>> SearchProducts(string Name)
+        [HttpGet("/Product/Name={name}")]
+        public async Task<ActionResult<IEnumerable<ProductOut>>> SearchProducts(string name)
         {
-            return await m_Handler.GetProductByName(Name);
+            return await m_Handler.GetProductByName(name);
         }
 
         // DELETE: /Product/5

@@ -102,7 +102,7 @@ namespace InventoryDBManagement.Controllers
         {
             var customer = await _context.Customers
                        .AsNoTracking()
-                       .FirstAsync(c => c.Name == name);
+                       .FirstAsync(c => c.Name.ToLower() == name.ToLower());
             if (customer == null)
             {
                 return NotFound();

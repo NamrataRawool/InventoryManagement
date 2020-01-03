@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InventoryDBManagement.Configuration.Options;
 using InventoryDBManagement.DAL;
+using InventoryDBManagement.Handlers;
 using InventoryDBManagement.Models.Base;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,12 +18,13 @@ namespace InventoryDBManagement.Controllers
     [ApiController]
     public class VendorHttpController : ControllerBase
     {
-
+        private VendorHandler m_Handler;
         private readonly IHostingEnvironment m_HostingEnvironment;
         private readonly InventoryDBContext _context;
 
         public VendorHttpController(IHostingEnvironment hostingEnvironment, InventoryDBContext context)
         {
+            m_Handler = new VendorHandler(context, this);
             m_HostingEnvironment = hostingEnvironment;
             _context = context;
         }
@@ -31,62 +33,21 @@ namespace InventoryDBManagement.Controllers
         [HttpGet("/Vendors")]
         public async Task<ActionResult<IEnumerable<VendorOut>>> GetVendors()
         {
-            var VendorDTOs = await _context.Vendors
-                                           .AsNoTracking()
-                                           .ToListAsync();
-
-            List<VendorOut> vendors = new List<VendorOut>();
-            foreach (var vendor in VendorDTOs)
-                vendors.Add(new VendorOut(_context, vendor));
-
-            return vendors;
+            return await m_Handler.GetVendors();
         }
 
         // GET: /Vendor/5
         [HttpGet("/Vendor/{id}")]
         public async Task<ActionResult<VendorOut>> GetVendor(int id)
         {
-            var vendor = await _context.Vendors
-                                       .AsNoTracking()
-                                       .FirstOrDefaultAsync(p => p.ID == id);
-
-
-            if (vendor == null)
-            {
-                return NotFound();
-            }
-
-            return new VendorOut(_context, vendor);
+            return await m_Handler.GetVendor(id);
         }
 
         // PUT: /Vendor/5
         [HttpPut("/Vendor/{id}")]
         public async Task<IActionResult> PutVendor(int id, VendorDTO VendorDTO)
         {
-            if (id != VendorDTO.ID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(VendorDTO).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VendorExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return await m_Handler.UpdateVendor(id, VendorDTO);
         }
 
         // POST: /Vendor
@@ -95,78 +56,29 @@ namespace InventoryDBManagement.Controllers
         {
             try
             {
-                VendorDTO vendorDTO = new VendorDTO(vendorIn);
-                _context.Vendors.Add(vendorDTO);
-                await _context.SaveChangesAsync();
+                if (vendorIn.ID == 0)
+                    return await m_Handler.AddNewVendor(vendorIn);
 
-                vendorDTO = CreatedAtAction("GetProduct", new { id = vendorDTO.ID }, vendorDTO).Value as VendorDTO;
-
-                await PutVendor(vendorDTO.ID, vendorDTO);
-
-                return new VendorOut(_context, vendorDTO);
+                return await m_Handler.UpdateVendor(vendorIn);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 throw;
             }
-
         }
 
-        [HttpGet]
+        [HttpGet("/Vendor/name={name}")]
         public async Task<ActionResult<IEnumerable<VendorOut>>> SearchVendors(string name)
         {
-            if (String.IsNullOrEmpty(name))
-                return BadRequest();
-
-            var VendorDTOs = await _context.Vendors
-            .AsNoTracking()
-            .Where(p => p.CompanyName.Contains(name))
-            .ToListAsync();
-
-            List<VendorOut> products = new List<VendorOut>();
-            foreach (var vendor in VendorDTOs)
-                products.Add(new VendorOut(_context, vendor));
-
-            return products;
+            return await m_Handler.SearchVendorByName(name);
         }
 
         // DELETE: /Vendor/5
         [HttpDelete("/Vendor/{id}")]
         public async Task<ActionResult<VendorDTO>> DeleteVendor(int id)
         {
-            var vendor = await _context.Vendors.FindAsync(id);
-            if (vendor == null)
-            {
-                return NotFound();
-            }
-
-            _context.Vendors.Remove(vendor);
-            await _context.SaveChangesAsync();
-
-            return vendor;
+            return await m_Handler.DeleteVendor(id);
         }
-
-        #region Public Methods
-        public async Task<List<VendorOut>> GetSelectedVendors(List<string> vendorIds)
-        {
-            List<VendorOut> prodList = new List<VendorOut>();
-            foreach (var productId in vendorIds)
-            {
-                var product = await GetVendor(Convert.ToInt32(productId.Trim()));
-                if (product == null)
-                    continue;
-                prodList.Add(product.Value);
-            }
-            return prodList;
-        }
-        #endregion
-        #region Private Methods
-        private bool VendorExists(int id)
-        {
-            return _context.Products.Any(e => e.ID == id);
-        }
-        #endregion
-
     }
 }

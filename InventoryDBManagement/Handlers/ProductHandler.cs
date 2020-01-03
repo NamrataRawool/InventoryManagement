@@ -143,7 +143,7 @@ namespace InventoryDBManagement.Handlers
 
             var productDtos = await m_Context.Products
             .AsNoTracking()
-            .Where(p => p.Name.Contains(Name))
+            .Where(p => p.Name.ToLower().StartsWith(Name.ToLower()))
             .ToListAsync();
 
             List<ProductOut> products = new List<ProductOut>();

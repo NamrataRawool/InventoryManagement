@@ -14,6 +14,10 @@ namespace InventoryDBManagement.Models.Base
         public VendorBase() { }
         public VendorBase(VendorBase rhs)
         {
+            CopyFrom(rhs);
+        }
+        public void CopyFrom(VendorBase rhs)
+        {
             ID = rhs.ID;
             CompanyName = rhs.CompanyName;
             Address = rhs.Address;
@@ -22,7 +26,6 @@ namespace InventoryDBManagement.Models.Base
             City = rhs.City;
             State = rhs.State;
         }
-
         [Key]
         [JsonProperty]
         public int ID { get; set; }
