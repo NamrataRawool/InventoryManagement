@@ -24,8 +24,8 @@ namespace InventoryManagement.Models.Out
                     ProductDetails.Add(new ProductOut(context, context.GetProduct(ID)));
                 }
             }
-
-            Customer = new CustomerOut(context, context.GetCustomer(dto.CustomerID));
+            if(dto.CustomerID != 0)
+                Customer = new CustomerOut(context, context.GetCustomer(dto.CustomerID));
         }
 
         [JsonProperty]
