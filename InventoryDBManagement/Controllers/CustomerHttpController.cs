@@ -98,7 +98,7 @@ namespace InventoryDBManagement.Controllers
 
         // GET: /Transaction?from={}&to={}
         [HttpGet("/Customer/name={name}")]
-        public async Task<ActionResult<CustomerOut>> SearchCustomers(string name)
+        public async Task<ActionResult<CustomerOut>> SearchCustomerByName(string name)
         {
             var customer = await _context.Customers
                        .AsNoTracking()
@@ -111,6 +111,21 @@ namespace InventoryDBManagement.Controllers
             return new CustomerOut(_context, customer);
         }
 
+
+        // GET: /Transaction?from={}&to={}
+        [HttpGet("/Customer/mobileNumber={mobileNumber}")]
+        public async Task<ActionResult<CustomerOut>> SearchCustomerByMobileNumber(string mobileNumber)
+        {
+            var customer = await _context.Customers
+                       .AsNoTracking()
+                       .FirstOrDefaultAsync(c => c.MobileNumber == mobileNumber);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return new CustomerOut(_context, customer);
+        }
         private bool CustomerExists(int id)
         {
             return _context.Customers.Any(e => e.ID == id);
